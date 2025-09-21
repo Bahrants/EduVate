@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn Afaan Oromoo - EduVate</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --gold: #C5A245;
+      --red: #9E2A2A;
+      --green: #2D5D46;
+      --text: #F0F0F0;
+      --bg: #1A1A1A;
+      --nav-bg: #252525;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(45deg, #1A1A1A 60%, #2D5D46 140%);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    .nav-container {
+      background: var(--nav-bg);
+      padding: 1rem 2rem;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .nav-item {
+      color: var(--text);
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+    }
+
+    .nav-item:hover::after {
+      content: attr(data-translation);
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: var(--bg);
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+
+    .hero-section {
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      background: linear-gradient(45deg, #252525 0%, #1A1A1A 100%);
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .search-container {
+      max-width: 600px;
+      margin: 2rem auto;
+      position: relative;
+    }
+
+    #searchInput {
+      width: 100%;
+      padding: 1rem 2rem;
+      border-radius: 30px;
+      border: 2px solid var(--gold);
+      background: var(--nav-bg);
+      color: var(--text);
+      font-size: 1.1rem;
+    }
+
+    .qubee-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    .qubee-char {
+      background: #252525;
+      border-radius: 15px;
+      padding: 2rem;
+      border: 2px solid var(--gold);
+      text-align: center;
+      font-size: 2.5rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .qubee-char.learned {
+      border-color: var(--green);
+      background: linear-gradient(45deg, #252525 0%, #2D5D46AA 100%);
+    }
+
+    .qubee-char:hover::after {
+      content: attr(data-translation);
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--green);
+      color: var(--text);
+      padding: 3px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      animation: floatUp 0.3s ease-out;
+    }
+
+    @keyframes floatUp {
+      from { opacity: 0; bottom: -10px; }
+      to { opacity: 1; bottom: 10px; }
+    }
+
+    .pronunciation {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--red);
+      margin-top: 0.5rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #303030;
+      margin: 2rem 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), var(--gold));
+      transition: width 0.5s ease;
+    }
+
+    .timeline-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .timeline-card {
+      background: #252525;
+      padding: 2rem;
+      border-radius: 15px;
+      border: 1px solid var(--green);
+      transition: transform 0.3s ease;
+    }
+
+    .quiz-section {
+      max-width: 800px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background: #252525;
+      border-radius: 15px;
+      border: 1px solid var(--gold);
+    }
+
+    .quiz-option {
+      padding: 1rem;
+      background: #303030;
+      border: 1px solid var(--green);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .quiz-option.correct {
+      background: var(--green) !important;
+    }
+
+    .quiz-option.wrong {
+      background: var(--red) !important;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .qubee-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+      
+      .nav-item {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .nav-item:hover::after {
+        bottom: -30px;
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav-container">
+    <div class="nav-links">
+      <a href="#history" class="nav-item" data-translation="History">
+        <i class="fas fa-history"></i>Seenaa
+      </a>
+      <a href="#qubee" class="nav-item" data-translation="Alphabet">
+        <i class="fas fa-letters"></i>Qubee
+      </a>
+      <a href="#practice" class="nav-item" data-translation="Practice">
+        <i class="fas fa-flask"></i>Qoqqooda
+      </a>
+      <a href="#quiz" class="nav-item" data-translation="Quiz">
+        <i class="fas fa-question"></i>Qabxii
+      </a>
+    </div>
+  </nav>
+
+  <section class="hero-section" id="history">
+    <h1 class="hero-title">Baranno Afaan Oromoo</h1>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Barbaadi Qubee...">
+      <i class="fas fa-search search-icon"></i>
+    </div>
+  </section>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <section class="qubee-container" id="qubee">
+    <!-- Alphabet characters injected via JS -->
+  </section>
+
+  <section class="timeline-container">
+    <div class="timeline-card">
+      <h3 class="timeline-year">1974</h3>
+      <p>Qubee Latin barreessuuf yaadannoo jalqabaa</p>
+      <small data-translation="First initiatives for Latin script" class="translation-hint"></small>
+    </div>
+    <div class="timeline-card">
+      <h3 class="timeline-year">1991</h3>
+      <p>Qubee Latin kitaaba barumsaa keessatti fayyadama</p>
+      <small data-translation="Latin script adopted in education" class="translation-hint"></small>
+    </div>
+    <div class="timeline-card">
+      <h3 class="timeline-year">2020</h3>
+      <p>Afaan Oromoo Google Translate keessatti argamu</p>
+      <small data-translation="Added to Google Translate" class="translation-hint"></small>
+    </div>
+  </section>
+
+  <section class="quiz-section" id="quiz">
+    <div class="quiz-question" id="quizQuestion"></div>
+    <div class="quiz-options" id="quizOptions"></div>
+    <div class="score-board" id="scoreBoard">Points: 0</div>
+  </section>
+
+  <script>
+    const oromoAlphabet = [
+      {char: 'A', pron: 'a', translation: 'Like "a" in car'},
+      {char: 'B', pron: 'ba', translation: 'Like "b" in bat'},
+      {char: 'C', pron: 'cha', translation: 'Like "ch" in chat'},
+      {char: 'D', pron: 'da', translation: 'Like "d" in dog'},
+      {char: 'E', pron: 'e', translation: 'Like "e" in bed'},
+      {char: 'F', pron: 'fa', translation: 'Like "f" in fun'},
+      {char: 'G', pron: 'ga', translation: 'Like "g" in go'},
+      {char: 'H', pron: 'ha', translation: 'Like "h" in hat'},
+      {char: 'I', pron: 'i', translation: 'Like "i" in machine'},
+      {char: 'J', pron: 'ja', translation: 'Like "j" in job'},
+      {char: 'K', pron: 'ka', translation: 'Like "k" in kite'},
+      {char: 'L', pron: 'la', translation: 'Like "l" in love'},
+      {char: 'M', pron: 'ma', translation: 'Like "m" in man'},
+      {char: 'N', pron: 'na', translation: 'Like "n" in no'},
+      {char: 'O', pron: 'o', translation: 'Like "o" in more'},
+      {char: 'P', pron: 'pa', translation: 'Like "p" in pen'},
+      {char: 'Q', pron: 'qa', translation: 'Guttural "k" sound'},
+      {char: 'R', pron: 'ra', translation: 'Rolled "r" like in Spanish'},
+      {char: 'S', pron: 'sa', translation: 'Like "s" in sun'},
+      {char: 'T', pron: 'ta', translation: 'Like "t" in top'},
+      {char: 'U', pron: 'u', translation: 'Like "oo" in moon'},
+      {char: 'V', pron: 'va', translation: 'Like "v" in van'},
+      {char: 'W', pron: 'wa', translation: 'Like "w" in water'},
+      {char: 'X', pron: 'xa', translation: 'Like "kh" in khan'},
+      {char: 'Y', pron: 'ya', translation: 'Like "y" in yes'},
+      {char: 'Z', pron: 'za', translation: 'Like "z" in zoo'},
+      {char: 'CH', pron: 'cha', translation: 'Like "ch" in church'},
+      {char: 'DH', pron: 'dha', translation: 'Emphatic "d" sound'},
+      {char: 'NY', pron: 'nya', translation: 'Like "ñ" in Spanish'},
+      {char: 'PH', pron: 'pha', translation: 'Aspirated "p" sound'},
+      {char: 'SH', pron: 'sha', translation: 'Like "sh" in shoe'},
+      {char: 'TS', pron: 'tsa', translation: 'Like "ts" in cats'}
+    ];
+
+    // Initialize Qubee Grid
+    const qubeeContainer = document.getElementById('qubee');
+    oromoAlphabet.forEach(letter => {
+      const div = document.createElement('div');
+      div.className = 'qubee-char';
+      div.innerHTML = `
+        ${letter.char}
+        <span class="pronunciation">${letter.pron}</span>
+      `;
+      div.dataset.translation = letter.translation;
+      qubeeContainer.appendChild(div);
+    });
+
+    // Search Functionality
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      document.querySelectorAll('.qubee-char').forEach(char => {
+        const text = char.textContent.toLowerCase();
+        char.style.display = text.includes(searchTerm) ? 'block' : 'none';
+      });
+    });
+
+    // Progress Tracking
+    function updateProgress() {
+      const learned = document.querySelectorAll('.learned').length;
+      const progress = (learned / oromoAlphabet.length) * 100;
+      document.getElementById('progressFill').style.width = `${progress}%`;
+    }
+
+    // Character Learning System
+    document.querySelectorAll('.qubee-char').forEach(char => {
+      char.addEventListener('click', function() {
+        this.classList.toggle('learned');
+        updateProgress();
+        localStorage.setItem('learnedChars', JSON.stringify(
+          Array.from(document.querySelectorAll('.learned')).map(el => el.textContent.trim().split('\n')[0])
+        ));
+        
+        // Speech Synthesis
+        const synth = window.speechSynthesis;
+        const utterance = new SpeechSynthesisUtterance(
+          this.textContent.split('\n')[0].trim()
+        );
+        utterance.voice = window.oromoVoice || synth.getVoices()[0];
+        synth.speak(utterance);
+      });
+    });
+
+    // Quiz System
+    const quizData = [
+      {
+        question: "Qubee 'CH' afaan Ingilizii keessatti maali?",
+        options: ["Cha", "Chee", "Chi", "Cho"],
+        correct: 0
+      },
+      {
+        question: "Qubee 'NY' dubbisuufi...",
+        options: ["Nya", "Nye", "Nyi", "Nyo"],
+        correct: 0
+      },
+      {
+        question: "Eessatti argamu Afaan Oromoo?",
+        options: ["Keeniyaa", "Itoophiyaa", "Sudaan", "Jibooti"],
+        correct: 1
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function showQuestion() {
+      const q = quizData[currentQuestion];
+      document.getElementById('quizQuestion').textContent = q.question;
+      const optionsDiv = document.getElementById('quizOptions');
+      optionsDiv.innerHTML = '';
+      
+      q.options.forEach((option, index) => {
+        const btn = document.createElement('div');
+        btn.className = 'quiz-option';
+        btn.textContent = option;
+        btn.onclick = () => checkAnswer(index);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selectedIndex) {
+      const correctIndex = quizData[currentQuestion].correct;
+      const options = document.querySelectorAll('.quiz-option');
+      
+      options.forEach((option, index) => {
+        if(index === correctIndex) option.classList.add('correct');
+        if(index === selectedIndex && index !== correctIndex) option.classList.add('wrong');
+      });
+
+      if(selectedIndex === correctIndex) score++;
+      document.getElementById('scoreBoard').textContent = `Points: ${score}`;
+      
+      setTimeout(() => {
+        currentQuestion = (currentQuestion + 1) % quizData.length;
+        showQuestion();
+      }, 1500);
+    }
+
+    // Initialize Application
+    document.addEventListener('DOMContentLoaded', () => {
+      // Load Progress
+      const savedProgress = localStorage.getItem('learnedChars');
+      if(savedProgress) {
+        JSON.parse(savedProgress).forEach(char => {
+          const element = Array.from(document.querySelectorAll('.qubee-char'))
+            .find(el => el.textContent.includes(char));
+          if(element) element.classList.add('learned');
+        });
+        updateProgress();
+      }
+      
+      // Initialize Quiz
+      showQuestion();
+      
+      // Initialize Voice Synthesis
+      if('speechSynthesis' in window) {
+        window.speechSynthesis.onvoiceschanged = () => {
+          window.oromoVoice = speechSynthesis.getVoices().find(voice => 
+            voice.lang === 'om-ET' || voice.name.includes('Oromo'));
+        };
+      }
+    });
+
+    // Mobile Hover Simulation
+    let touchTimer;
+    document.querySelectorAll('[data-translation]').forEach(element => {
+      element.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        this.classList.add('show-translation');
+        touchTimer = setTimeout(() => {
+          this.classList.remove('show-translation');
+        }, 2000);
+      });
+      
+      element.addEventListener('touchend', function(e) {
+        clearTimeout(touchTimer);
+        this.classList.remove('show-translation');
+      });
+    });
+  </script>
+</body>
+</html>

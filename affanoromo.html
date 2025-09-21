@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Learn Afaan Oromoo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .course-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .course-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+        .translate-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Learn Afaan Oromoo</h1>
+        <p>Select a course to begin your learning journey</p>
+    </div>
+
+    <div class="course-list">
+        <div class="course-card" onclick="location.href='course1.html'">
+            <h2>Course 1: Alphabet & Sounds</h2>
+            <p>Learn the Oromo alphabet and pronunciation</p>
+        </div>
+        <div class="course-card" onclick="location.href='course1quiz.html'">
+            <h2>Course1: Alpfhabet  quiz</h2>
+            <p>Common greetings and responses</p>
+        </div>
+         <div class="course-card" onclick="location.href='course2.html'">
+            <h2>Course 2: Basic Greetings</h2>
+            <p>Common greetings and responses</p>
+        </div>
+         </div>
+         <div class="course-card" onclick="location.href='course2.html'">
+            <h2>Course 2: Basic Greetings quiz</h2>
+            <p>Common greetings and responses</p>
+        </div>
+         </div>
+         <div class="course-card" onclick="location.href='course2.html'">
+            <h2>Course 3: Basic Greetings</h2>
+            <p>Common greetings and responses</p>
+        </div>
+        
+    </div>
+
+    <button class="translate-button" onclick="translatePage()">Translate</button>
+
+    <script>
+        function translatePage() {
+            // Google Translate API integration
+            var googleTranslateScript = document.createElement('script');
+            googleTranslateScript.type = 'text/javascript';
+            googleTranslateScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+            document.body.appendChild(googleTranslateScript);
+
+            window.googleTranslateElementInit = function() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'en',
+                    includedLanguages: 'en,am,om',
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                }, 'google_translate_element');
+            };
+        }
+    </script>
+</body>
+</html>

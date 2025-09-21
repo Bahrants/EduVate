@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="ti">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ትግርኛ ፊደል - EduVate</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Abyssinica+SIL&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #C5A245;
+      --red: #9E2A2A;
+      --green: #2D5D46;
+      --text: #F0F0F0;
+      --bg: #1A1A1A;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+    }
+
+    .history-section {
+      max-width: 800px;
+      margin: 2rem auto;
+    }
+
+    .history-card {
+      background: #252525;
+      border-radius: 15px;
+      padding: 2rem;
+      border: 1px solid var(--gold);
+    }
+
+    .amharic-title {
+      font-family: 'Abyssinica SIL', serif;
+      font-size: 2.5em;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .english-title {
+      font-size: 1.8em;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--green);
+    }
+
+    .history-content {
+      margin: 1.5rem 0;
+    }
+
+    .amharic-text {
+      font-family: 'Abyssinica SIL', serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+      margin: 1rem 0;
+    }
+
+    .translation {
+      background: #303030;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 0.5rem 0 1.5rem;
+      font-style: italic;
+    }
+
+    .continue-btn {
+      display: block;
+      width: fit-content;
+      margin: 2rem auto 0;
+      padding: 12px 35px;
+      background: linear-gradient(45deg, var(--green), var(--red));
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      font-family: 'Abyssinica SIL', serif;
+    }
+
+    .continue-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(197, 162, 69, 0.3);
+    }
+
+    .fidel-container {
+      display: none;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .consonant-group {
+      background: #252525;
+      border-radius: 10px;
+      padding: 20px;
+      border: 1px solid var(--gold);
+    }
+
+    .base-consonant {
+      font-family: 'Abyssinica SIL', serif;
+      font-size: 2.5em;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .vowel-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .fidel-char {
+      font-family: 'Abyssinica SIL', serif;
+      font-size: 1.8em;
+      text-align: center;
+      padding: 12px;
+      background: #303030;
+      border-radius: 8px;
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+
+    .fidel-char:hover {
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(197, 162, 69, 0.3);
+    }
+
+    .pronunciation {
+      display: block;
+      font-size: 0.75em;
+      color: var(--red);
+      margin-top: 5px;
+    }
+
+    .practice-section {
+      max-width: 800px;
+      margin: 2rem auto;
+      display: none;
+    }
+
+    .flashcard-container {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .flashcard {
+      position: relative;
+      width: 300px;
+      height: 400px;
+      margin: 0 auto;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .flashcard-front,
+    .flashcard-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backface-visibility: hidden;
+      border-radius: 15px;
+      transition: transform 0.6s;
+      font-family: 'Abyssinica SIL', serif;
+      font-size: 4em;
+      background: #303030;
+      border: 2px solid var(--gold);
+    }
+
+    .flashcard-back {
+      transform: rotateY(180deg);
+      background: #252525;
+      color: var(--green);
+    }
+
+    .flashcard.flipped .flashcard-front {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard.flipped .flashcard-back {
+      transform: rotateY(0deg);
+    }
+
+    .flashcard-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin: 1.5rem 0;
+    }
+
+    .nav-btn {
+      background: none;
+      border: 1px solid var(--gold);
+      color: var(--text);
+      padding: 8px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .nav-btn:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    .practice-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .fidel-container {
+        grid-template-columns: 1fr;
+      }
+      .vowel-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .flashcard {
+        width: 250px;
+        height: 350px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- History Section -->
+  <div class="history-section" id="historySection">
+    <div class="history-card">
+      <div class="amharic-title">ታሪኽ ቋንቋ ትግርኛ</div>
+      <div class="english-title">History of Tigrinya Language</div>
+      
+      <div class="history-content">
+        <div class="amharic-text">ትግርኛ ካብ ስርወ ቋንቋታት ሴማዊት ኮይኑ ኣብ ኤርትራን ኢትዮጵያን ዝዝረብ ቋንቋ እዩ።</div>
+        <div class="translation">Tigrinya is a Semitic language spoken in Eritrea and Ethiopia.</div>
+
+        <div class="amharic-text">ፊደል ግእዝ ብመሰረት ዝተማህረ ሲሆን ካብ 2000 ዓመታት በሊጉ ታሪኽ ኣለዎ።</div>
+        <div class="translation">It uses the Ge'ez script with a history spanning over 2000 years.</div>
+
+        <div class="amharic-text">ትግርኛ ብዙሕ ታሪኻዊ ጽሑፋትን ስነ-ጽሑፋዊ ኣምርን ኣለዎ።</div>
+        <div class="translation">Tigrinya has rich literary traditions and historical manuscripts.</div>
+      </div>
+
+      <button class="continue-btn" onclick="showAlphabet()">ትግርኛ ፊደል ርአ →</button>
+    </div>
+  </div>
+
+  <h1 style="text-align: center; color: var(--gold); display: none;">ትግርኛ ፊደል - Tigrinya Alphabet</h1>
+  
+  <!-- Alphabet Grid -->
+  <div class="fidel-container" id="fidel-container">
+    		<!-- 1. ሀ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ሀ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ሀ <span class="pronunciation">hä</span></div>
+        <div class="fidel-char">ሁ <span class="pronunciation">hu</span></div>
+        <div class="fidel-char">ሂ <span class="pronunciation">hi</span></div>
+        <div class="fidel-char">ሃ <span class="pronunciation">ha</span></div>
+        <div class="fidel-char">ሄ <span class="pronunciation">he</span></div>
+        <div class="fidel-char">ህ <span class="pronunciation">hə</span></div>
+        <div class="fidel-char">ሆ <span class="pronunciation">ho</span></div>
+      </div>
+    </div>
+
+    <!-- 2. ለ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ለ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ለ <span class="pronunciation">lä</span></div>
+        <div class="fidel-char">ሉ <span class="pronunciation">lu</span></div>
+        <div class="fidel-char">ሊ <span class="pronunciation">li</span></div>
+        <div class="fidel-char">ላ <span class="pronunciation">la</span></div>
+        <div class="fidel-char">ሌ <span class="pronunciation">le</span></div>
+        <div class="fidel-char">ል <span class="pronunciation">lə</span></div>
+        <div class="fidel-char">ሎ <span class="pronunciation">lo</span></div>
+      </div>
+    </div>
+
+    <!-- 3. ሐ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ሐ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ሐ <span class="pronunciation">ḥä</span></div>
+        <div class="fidel-char">ሑ <span class="pronunciation">ḥu</span></div>
+        <div class="fidel-char">ሒ <span class="pronunciation">ḥi</span></div>
+        <div class="fidel-char">ሓ <span class="pronunciation">ḥa</span></div>
+        <div class="fidel-char">ሔ <span class="pronunciation">ḥe</span></div>
+        <div class="fidel-char">ሕ <span class="pronunciation">ḥə</span></div>
+        <div class="fidel-char">ሖ <span class="pronunciation">ḥo</span></div>
+      </div>
+    </div>
+
+    <!-- 4. መ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">መ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">መ <span class="pronunciation">mä</span></div>
+        <div class="fidel-char">ሙ <span class="pronunciation">mu</span></div>
+        <div class="fidel-char">ሚ <span class="pronunciation">mi</span></div>
+        <div class="fidel-char">ማ <span class="pronunciation">ma</span></div>
+        <div class="fidel-char">ሜ <span class="pronunciation">me</span></div>
+        <div class="fidel-char">ም <span class="pronunciation">mə</span></div>
+        <div class="fidel-char">ሞ <span class="pronunciation">mo</span></div>
+      </div>
+    </div>
+
+    <!-- 5. ሠ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ሠ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ሠ <span class="pronunciation">śä</span></div>
+        <div class="fidel-char">ሡ <span class="pronunciation">śu</span></div>
+        <div class="fidel-char">ሢ <span class="pronunciation">śi</span></div>
+        <div class="fidel-char">ሣ <span class="pronunciation">śa</span></div>
+        <div class="fidel-char">ሤ <span class="pronunciation">śe</span></div>
+        <div class="fidel-char">ሥ <span class="pronunciation">śə</span></div>
+        <div class="fidel-char">ሦ <span class="pronunciation">śo</span></div>
+      </div>
+    </div>
+
+    <!-- 6. ረ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ረ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ረ <span class="pronunciation">rä</span></div>
+        <div class="fidel-char">ሩ <span class="pronunciation">ru</span></div>
+        <div class="fidel-char">ሪ <span class="pronunciation">ri</span></div>
+        <div class="fidel-char">ራ <span class="pronunciation">ra</span></div>
+        <div class="fidel-char">ሬ <span class="pronunciation">re</span></div>
+        <div class="fidel-char">ር <span class="pronunciation">rə</span></div>
+        <div class="fidel-char">ሮ <span class="pronunciation">ro</span></div>
+      </div>
+    </div>
+
+    <!-- 7. ሰ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ሰ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ሰ <span class="pronunciation">sä</span></div>
+        <div class="fidel-char">ሱ <span class="pronunciation">su</span></div>
+        <div class="fidel-char">ሲ <span class="pronunciation">si</span></div>
+        <div class="fidel-char">ሳ <span class="pronunciation">sa</span></div>
+        <div class="fidel-char">ሴ <span class="pronunciation">se</span></div>
+        <div class="fidel-char">ስ <span class="pronunciation">sə</span></div>
+        <div class="fidel-char">ሶ <span class="pronunciation">so</span></div>
+      </div>
+    </div>
+
+    <!-- 8. ሸ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ሸ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ሸ <span class="pronunciation">shä</span></div>
+        <div class="fidel-char">ሹ <span class="pronunciation">shu</span></div>
+        <div class="fidel-char">ሺ <span class="pronunciation">shi</span></div>
+        <div class="fidel-char">ሻ <span class="pronunciation">sha</span></div>
+        <div class="fidel-char">ሼ <span class="pronunciation">she</span></div>
+        <div class="fidel-char">ሽ <span class="pronunciation">shə</span></div>
+        <div class="fidel-char">ሾ <span class="pronunciation">sho</span></div>
+      </div>
+    </div>
+
+    <!-- 9. ቀ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ቀ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ቀ <span class="pronunciation">qä</span></div>
+        <div class="fidel-char">ቁ <span class="pronunciation">qu</span></div>
+        <div class="fidel-char">ቂ <span class="pronunciation">qi</span></div>
+        <div class="fidel-char">ቃ <span class="pronunciation">qa</span></div>
+        <div class="fidel-char">ቄ <span class="pronunciation">qe</span></div>
+        <div class="fidel-char">ቅ <span class="pronunciation">qə</span></div>
+        <div class="fidel-char">ቆ <span class="pronunciation">qo</span></div>
+      </div>
+    </div>
+
+    <!-- 10. በ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">በ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">በ <span class="pronunciation">bä</span></div>
+        <div class="fidel-char">ቡ <span class="pronunciation">bu</span></div>
+        <div class="fidel-char">ቢ <span class="pronunciation">bi</span></div>
+        <div class="fidel-char">ባ <span class="pronunciation">ba</span></div>
+        <div class="fidel-char">ቤ <span class="pronunciation">be</span></div>
+        <div class="fidel-char">ብ <span class="pronunciation">bə</span></div>
+        <div class="fidel-char">ቦ <span class="pronunciation">bo</span></div>
+      </div>
+    </div>
+
+    <!-- 11. ቨ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ቨ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ቨ <span class="pronunciation">vä</span></div>
+        <div class="fidel-char">ቩ <span class="pronunciation">vu</span></div>
+        <div class="fidel-char">ቪ <span class="pronunciation">vi</span></div>
+        <div class="fidel-char">ቫ <span class="pronunciation">va</span></div>
+        <div class="fidel-char">ቬ <span class="pronunciation">ve</span></div>
+        <div class="fidel-char">ቭ <span class="pronunciation">və</span></div>
+        <div class="fidel-char">ቮ <span class="pronunciation">vo</span></div>
+      </div>
+    </div>
+
+    <!-- 12. ተ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ተ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ተ <span class="pronunciation">tä</span></div>
+        <div class="fidel-char">ቱ <span class="pronunciation">tu</span></div>
+        <div class="fidel-char">ቲ <span class="pronunciation">ti</span></div>
+        <div class="fidel-char">ታ <span class="pronunciation">ta</span></div>
+        <div class="fidel-char">ቴ <span class="pronunciation">te</span></div>
+        <div class="fidel-char">ት <span class="pronunciation">tə</span></div>
+        <div class="fidel-char">ቶ <span class="pronunciation">to</span></div>
+      </div>
+    </div>
+
+    <!-- 13. ቸ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ቸ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ቸ <span class="pronunciation">chä</span></div>
+        <div class="fidel-char">ቹ <span class="pronunciation">chu</span></div>
+        <div class="fidel-char">ቺ <span class="pronunciation">chi</span></div>
+        <div class="fidel-char">ቻ <span class="pronunciation">cha</span></div>
+        <div class="fidel-char">ቼ <span class="pronunciation">che</span></div>
+        <div class="fidel-char">ች <span class="pronunciation">chə</span></div>
+        <div class="fidel-char">ቾ <span class="pronunciation">cho</span></div>
+      </div>
+    </div>
+
+    <!-- 14. ኀ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ኀ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ኀ <span class="pronunciation">hä</span></div>
+        <div class="fidel-char">ኁ <span class="pronunciation">hu</span></div>
+        <div class="fidel-char">ኂ <span class="pronunciation">hi</span></div>
+        <div class="fidel-char">ኃ <span class="pronunciation">ha</span></div>
+        <div class="fidel-char">ኄ <span class="pronunciation">he</span></div>
+        <div class="fidel-char">ኅ <span class="pronunciation">hə</span></div>
+        <div class="fidel-char">ኆ <span class="pronunciation">ho</span></div>
+      </div>
+    </div>
+
+    <!-- 15. ነ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ነ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ነ <span class="pronunciation">nä</span></div>
+        <div class="fidel-char">ኑ <span class="pronunciation">nu</span></div>
+        <div class="fidel-char">ኒ <span class="pronunciation">ni</span></div>
+        <div class="fidel-char">ና <span class="pronunciation">na</span></div>
+        <div class="fidel-char">ኔ <span class="pronunciation">ne</span></div>
+        <div class="fidel-char">ን <span class="pronunciation">nə</span></div>
+        <div class="fidel-char">ኖ <span class="pronunciation">no</span></div>
+      </div>
+    </div>
+
+    <!-- 16. ኘ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ኘ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ኘ <span class="pronunciation">ñä</span></div>
+        <div class="fidel-char">ኙ <span class="pronunciation">ñu</span></div>
+        <div class="fidel-char">ኚ <span class="pronunciation">ñi</span></div>
+        <div class="fidel-char">ኛ <span class="pronunciation">ña</span></div>
+        <div class="fidel-char">ኜ <span class="pronunciation">ñe</span></div>
+        <div class="fidel-char">ኝ <span class="pronunciation">ñə</span></div>
+        <div class="fidel-char">ኞ <span class="pronunciation">ño</span></div>
+      </div>
+    </div>
+
+    <!-- 17. አ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">አ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">አ <span class="pronunciation">ʾä</span></div>
+        <div class="fidel-char">ኡ <span class="pronunciation">ʾu</span></div>
+        <div class="fidel-char">ኢ <span class="pronunciation">ʾi</span></div>
+        <div class="fidel-char">ኣ <span class="pronunciation">ʾa</span></div>
+        <div class="fidel-char">ኤ <span class="pronunciation">ʾe</span></div>
+        <div class="fidel-char">እ <span class="pronunciation">ʾə</span></div>
+        <div class="fidel-char">ኦ <span class="pronunciation">ʾo</span></div>
+      </div>
+    </div>
+
+    <!-- 18. ከ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ከ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ከ <span class="pronunciation">kä</span></div>
+        <div class="fidel-char">ኩ <span class="pronunciation">ku</span></div>
+        <div class="fidel-char">ኪ <span class="pronunciation">ki</span></div>
+        <div class="fidel-char">ካ <span class="pronunciation">ka</span></div>
+        <div class="fidel-char">ኬ <span class="pronunciation">ke</span></div>
+        <div class="fidel-char">ክ <span class="pronunciation">kə</span></div>
+        <div class="fidel-char">ኮ <span class="pronunciation">ko</span></div>
+      </div>
+    </div>
+
+    <!-- 19. ኸ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ኸ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ኸ <span class="pronunciation">khä</span></div>
+        <div class="fidel-char">ኹ <span class="pronunciation">khu</span></div>
+        <div class="fidel-char">ኺ <span class="pronunciation">khi</span></div>
+        <div class="fidel-char">ኻ <span class="pronunciation">kha</span></div>
+        <div class="fidel-char">ኼ <span class="pronunciation">khe</span></div>
+        <div class="fidel-char">ኽ <span class="pronunciation">khə</span></div>
+        <div class="fidel-char">ኾ <span class="pronunciation">kho</span></div>
+      </div>
+    </div>
+
+    <!-- 20. ወ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ወ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ወ <span class="pronunciation">wä</span></div>
+        <div class="fidel-char">ዉ <span class="pronunciation">wu</span></div>
+        <div class="fidel-char">ዊ <span class="pronunciation">wi</span></div>
+        <div class="fidel-char">ዋ <span class="pronunciation">wa</span></div>
+        <div class="fidel-char">ዌ <span class="pronunciation">we</span></div>
+        <div class="fidel-char">ው <span class="pronunciation">wə</span></div>
+        <div class="fidel-char">ዎ <span class="pronunciation">wo</span></div>
+      </div>
+    </div>
+
+    <!-- 21. ዐ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ዐ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ዐ <span class="pronunciation">ʿä</span></div>
+        <div class="fidel-char">ዑ <span class="pronunciation">ʿu</span></div>
+        <div class="fidel-char">ዒ <span class="pronunciation">ʿi</span></div>
+        <div class="fidel-char">ዓ <span class="pronunciation">ʿa</span></div>
+        <div class="fidel-char">ዔ <span class="pronunciation">ʿe</span></div>
+        <div class="fidel-char">ዕ <span class="pronunciation">ʿə</span></div>
+        <div class="fidel-char">ዖ <span class="pronunciation">ʿo</span></div>
+      </div>
+    </div>
+
+    <!-- 22. ዘ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ዘ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ዘ <span class="pronunciation">zä</span></div>
+        <div class="fidel-char">ዙ <span class="pronunciation">zu</span></div>
+        <div class="fidel-char">ዚ <span class="pronunciation">zi</span></div>
+        <div class="fidel-char">ዛ <span class="pronunciation">za</span></div>
+        <div class="fidel-char">ዜ <span class="pronunciation">ze</span></div>
+        <div class="fidel-char">ዝ <span class="pronunciation">zə</span></div>
+        <div class="fidel-char">ዞ <span class="pronunciation">zo</span></div>
+      </div>
+    </div>
+
+    <!-- 23. ዠ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ዠ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ዠ <span class="pronunciation">zhä</span></div>
+        <div class="fidel-char">ዡ <span class="pronunciation">zhu</span></div>
+        <div class="fidel-char">ዢ <span class="pronunciation">zhi</span></div>
+        <div class="fidel-char">ዣ <span class="pronunciation">zha</span></div>
+        <div class="fidel-char">ዤ <span class="pronunciation">zhe</span></div>
+        <div class="fidel-char">ዥ <span class="pronunciation">zhə</span></div>
+        <div class="fidel-char">ዦ <span class="pronunciation">zho</span></div>
+      </div>
+    </div>
+
+    <!-- 24. የ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">የ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">የ <span class="pronunciation">yä</span></div>
+        <div class="fidel-char">ዩ <span class="pronunciation">yu</span></div>
+        <div class="fidel-char">ዪ <span class="pronunciation">yi</span></div>
+        <div class="fidel-char">ያ <span class="pronunciation">ya</span></div>
+        <div class="fidel-char">ዬ <span class="pronunciation">ye</span></div>
+        <div class="fidel-char">ይ <span class="pronunciation">yə</span></div>
+        <div class="fidel-char">ዮ <span class="pronunciation">yo</span></div>
+      </div>
+    </div>
+
+    <!-- 25. ደ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ደ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ደ <span class="pronunciation">dä</span></div>
+        <div class="fidel-char">ዱ <span class="pronunciation">du</span></div>
+        <div class="fidel-char">ዲ <span class="pronunciation">di</span></div>
+        <div class="fidel-char">ዳ <span class="pronunciation">da</span></div>
+        <div class="fidel-char">ዴ <span class="pronunciation">de</span></div>
+        <div class="fidel-char">ድ <span class="pronunciation">də</span></div>
+        <div class="fidel-char">ዶ <span class="pronunciation">do</span></div>
+      </div>
+    </div>
+
+    <!-- 26. ጀ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ጀ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ጀ <span class="pronunciation">jä</span></div>
+        <div class="fidel-char">ጁ <span class="pronunciation">ju</span></div>
+        <div class="fidel-char">ጂ <span class="pronunciation">ji</span></div>
+        <div class="fidel-char">ጃ <span class="pronunciation">ja</span></div>
+        <div class="fidel-char">ጄ <span class="pronunciation">je</span></div>
+        <div class="fidel-char">ጅ <span class="pronunciation">jə</span></div>
+        <div class="fidel-char">ጆ <span class="pronunciation">jo</span></div>
+      </div>
+    </div>
+
+    <!-- 27. ገ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ገ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ገ <span class="pronunciation">gä</span></div>
+        <div class="fidel-char">ጉ <span class="pronunciation">gu</span></div>
+        <div class="fidel-char">ጊ <span class="pronunciation">gi</span></div>
+        <div class="fidel-char">ጋ <span class="pronunciation">ga</span></div>
+        <div class="fidel-char">ጌ <span class="pronunciation">ge</span></div>
+        <div class="fidel-char">ግ <span class="pronunciation">gə</span></div>
+        <div class="fidel-char">ጎ <span class="pronunciation">go</span></div>
+      </div>
+    </div>
+
+    <!-- 28. ጠ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ጠ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ጠ <span class="pronunciation">ṭä</span></div>
+        <div class="fidel-char">ጡ <span class="pronunciation">ṭu</span></div>
+        <div class="fidel-char">ጢ <span class="pronunciation">ṭi</span></div>
+        <div class="fidel-char">ጣ <span class="pronunciation">ṭa</span></div>
+        <div class="fidel-char">ጤ <span class="pronunciation">ṭe</span></div>
+        <div class="fidel-char">ጥ <span class="pronunciation">ṭə</span></div>
+        <div class="fidel-char">ጦ <span class="pronunciation">ṭo</span></div>
+      </div>
+    </div>
+
+    <!-- 29. ጨ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ጨ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ጨ <span class="pronunciation">ch’ä</span></div>
+        <div class="fidel-char">ጩ <span class="pronunciation">ch’u</span></div>
+        <div class="fidel-char">ጪ <span class="pronunciation">ch’i</span></div>
+        <div class="fidel-char">ጫ <span class="pronunciation">ch’a</span></div>
+        <div class="fidel-char">ጬ <span class="pronunciation">ch’e</span></div>
+        <div class="fidel-char">ጭ <span class="pronunciation">ch’ə</span></div>
+        <div class="fidel-char">ጮ <span class="pronunciation">ch’o</span></div>
+      </div>
+    </div>
+
+    <!-- 30. ጰ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ጰ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ጰ <span class="pronunciation">p’ä</span></div>
+        <div class="fidel-char">ጱ <span class="pronunciation">p’u</span></div>
+        <div class="fidel-char">ጲ <span class="pronunciation">p’i</span></div>
+        <div class="fidel-char">ጳ <span class="pronunciation">p’a</span></div>
+        <div class="fidel-char">ጴ <span class="pronunciation">p’e</span></div>
+        <div class="fidel-char">ጵ <span class="pronunciation">p’ə</span></div>
+        <div class="fidel-char">ጶ <span class="pronunciation">p’o</span></div>
+      </div>
+    </div>
+
+    <!-- 31. ጸ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ጸ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ጸ <span class="pronunciation">ts’ä</span></div>
+        <div class="fidel-char">ጹ <span class="pronunciation">ts’u</span></div>
+        <div class="fidel-char">ጺ <span class="pronunciation">ts’i</span></div>
+        <div class="fidel-char">ጻ <span class="pronunciation">ts’a</span></div>
+        <div class="fidel-char">ጼ <span class="pronunciation">ts’e</span></div>
+        <div class="fidel-char">ጽ <span class="pronunciation">ts’ə</span></div>
+        <div class="fidel-char">ጾ <span class="pronunciation">ts’o</span></div>
+      </div>
+    </div>
+
+    <!-- 32. ፀ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ፀ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ፀ <span class="pronunciation">ḍä</span></div>
+        <div class="fidel-char">ፁ <span class="pronunciation">ḍu</span></div>
+        <div class="fidel-char">ፂ <span class="pronunciation">ḍi</span></div>
+        <div class="fidel-char">ፃ <span class="pronunciation">ḍa</span></div>
+        <div class="fidel-char">ፄ <span class="pronunciation">ḍe</span></div>
+        <div class="fidel-char">ፅ <span class="pronunciation">ḍə</span></div>
+        <div class="fidel-char">ፆ <span class="pronunciation">ḍo</span></div>
+      </div>
+    </div>
+
+    <!-- 33. ፈ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ፈ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ፈ <span class="pronunciation">fä</span></div>
+        <div class="fidel-char">ፉ <span class="pronunciation">fu</span></div>
+        <div class="fidel-char">ፊ <span class="pronunciation">fi</span></div>
+        <div class="fidel-char">ፋ <span class="pronunciation">fa</span></div>
+        <div class="fidel-char">ፌ <span class="pronunciation">fe</span></div>
+        <div class="fidel-char">ፍ <span class="pronunciation">fə</span></div>
+        <div class="fidel-char">ፎ <span class="pronunciation">fo</span></div>
+      </div>
+    </div>
+
+    <!-- 34. ፐ Family -->
+    <div class="consonant-group">
+      <div class="base-consonant">ፐ</div>
+      <div class="vowel-grid">
+        <div class="fidel-char">ፐ <span class="pronunciation">pä</span></div>
+        <div class="fidel-char">ፑ <span class="pronunciation">pu</span></div>
+        <div class="fidel-char">ፒ <span class="pronunciation">pi</span></div>
+        <div class="fidel-char">ፓ <span class="pronunciation">pa</span></div>
+        <div class="fidel-char">ፔ <span class="pronunciation">pe</span></div>
+        <div class="fidel-char">ፕ <span class="pronunciation">pə</span></div>
+        <div class="fidel-char">ፖ <span class="pronunciation">po</span></div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  </div>
+
+  <!-- Practice Section -->
+  <div class="practice-section" id="practiceSection">
+    <div class="history-card">
+      <div class="amharic-title">ፊደል ልምምድ</div>
+      <div class="english-title">Alphabet Practice</div>
+      
+      <div class="flashcard-container">
+        <div class="flashcard" id="flashcard">
+          <div class="flashcard-front"></div>	
+          <div class="flashcard-back"></div>
+        </div>
+        
+        <div class="flashcard-controls">
+          <button class="nav-btn" onclick="showPrevCard()">← ቅድሚት</button>
+          <span id="cardCount">1/34</span>
+          <button class="nav-btn" onclick="showNextCard()">ቀጺል →</button>
+        </div>
+        
+        <div class="practice-buttons">
+          <button class="continue-btn" onclick="speakCurrentCard()">
+            🔊 ድምጺ
+          </button>
+          <button class="continue-btn" onclick="shuffleCards()">
+            🔀 ምቕራብ
+          </button>
+        </div>
+      </div>
+      
+      <button class="continue-btn" onclick="showAlphabet()" style="margin-top: 2rem;">
+        ← ናብ ፊደል ተመለስ
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Navigation functions
+    function showAlphabet() {
+      document.getElementById('historySection').style.display = 'none';
+      document.getElementById('practiceSection').style.display = 'none';
+      document.getElementById('fidel-container').style.display = 'grid';
+      document.querySelector('h1').style.display = 'block';
+      
+      // Add Practice button
+      const existingBtn = document.querySelector('#practiceBtn');
+      if (!existingBtn) {
+        const practiceBtn = document.createElement('button');
+        practiceBtn.id = 'practiceBtn';
+        practiceBtn.className = 'continue-btn';
+        practiceBtn.innerHTML = 'ፊደል ልምምድ ይጀምሩ →';
+        practiceBtn.style.margin = '2rem auto';
+        practiceBtn.onclick = showPractice;
+        document.body.appendChild(practiceBtn);
+      }
+    }
+
+    // Flashcard system
+    let currentCardIndex = 0;
+    let cards = [];
+
+    function initializeCards() {
+      cards = [...document.querySelectorAll('.fidel-char')].map(card => ({
+        character: card.textContent.split(' ')[0].trim(),
+        pronunciation: card.querySelector('.pronunciation').textContent.trim()
+      }));
+    }
+
+    function updatePracticeSection() {
+      const flashcard = document.getElementById('flashcard');
+      const front = flashcard.querySelector('.flashcard-front');
+      const back = flashcard.querySelector('.flashcard-back');
+      
+      front.textContent = cards[currentCardIndex].character;
+      back.textContent = cards[currentCardIndex].pronunciation;
+      document.getElementById('cardCount').textContent = 
+        `${currentCardIndex + 1}/${cards.length}`;
+    }
+
+    function showNextCard() {
+      currentCardIndex = (currentCardIndex + 1) % cards.length;
+      updatePracticeSection();
+      document.getElementById('flashcard').classList.remove('flipped');
+    }
+
+    function showPrevCard() {
+      currentCardIndex = (currentCardIndex - 1 + cards.length) % cards.length;
+      updatePracticeSection();
+      document.getElementById('flashcard').classList.remove('flipped');
+    }
+
+    function showPractice() {
+      document.getElementById('fidel-container').style.display = 'none';
+      document.querySelector('h1').style.display = 'none';
+      document.getElementById('practiceSection').style.display = 'block';
+      if(cards.length === 0) initializeCards();
+      updatePracticeSection();
+    }
+
+    document.getElementById('flashcard').addEventListener('click', function() {
+      this.classList.toggle('flipped');
+    });
+
+    function speakCurrentCard() {
+      const speech = new SpeechSynthesisUtterance(cards[currentCardIndex].character);
+      speech.lang = 'am-ET';
+      window.speechSynthesis.speak(speech);
+    }
+
+    function shuffleCards() {
+      for (let i = cards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cards[i], cards[j]] = [cards[j], cards[i]];
+      }
+      currentCardIndex = 0;
+      updatePracticeSection();
+    }
+
+    // Initialize text-to-speech
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.fidel-char').forEach(char => {
+        char.addEventListener('click', function() {
+          const text = this.firstChild.textContent.trim();
+          const speech = new SpeechSynthesisUtterance(text);
+          speech.lang = 'am-ET';
+          window.speechSynthesis.speak(speech);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

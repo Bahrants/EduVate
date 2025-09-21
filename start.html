@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EduVate - Learn Ethiopian Languages: አማርኛ, Afaan Oromoo, ትግርኛ & more. Discover Ethiopia's linguistic heritage.">
+  <title>Ethiopian Languages - EduVate</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Abyssinica+SIL&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+  <style>
+    :root {
+      --gold: #C5A245;
+      --red: #9E2A2A;
+      --green: #2D5D46;
+      --text: #F0F0F0;
+      --bg: #1A1A1A;
+      --card-bg: #252525;
+      --pattern: url('data:image/svg+xml,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%23252525"/><path d="M50 0L100 50L50 100L0 50Z" fill="%23C5A245" opacity="0.1"/></svg>');
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .header {
+      padding: 6rem 5% 3rem;
+      text-align: center;
+      background: var(--pattern);
+      border-bottom: 2px solid var(--gold);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header h1 {
+      font-size: 2.8rem;
+      margin: 0;
+      color: var(--gold);
+      font-family: 'Abyssinica SIL', serif;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      color: rgba(240, 240, 240, 0.9);
+      max-width: 800px;
+      margin: 1rem auto;
+      line-height: 1.6;
+    }
+
+    .cta-foreign {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 30px;
+      background: linear-gradient(45deg, var(--green), var(--red));
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 1px solid var(--gold);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    .cta-foreign:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(197, 162, 69, 0.3);
+    }
+
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.5rem;
+      padding: 4rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .language-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: transform 0.3s ease;
+      border: 2px solid var(--gold);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .language-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(197, 162, 69, 0.1), transparent);
+      transform: rotate(45deg);
+      pointer-events: none;
+    }
+
+    .language-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(197, 162, 69, 0.15);
+    }
+
+    .language-name {
+      font-size: 2rem;
+      margin: 1rem 0;
+      text-align: center;
+      font-weight: 700;
+      font-family: 'Abyssinica SIL', serif;
+      color: var(--gold);
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    .language-name::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 2px;
+      background: var(--red);
+    }
+
+    .native-name {
+      font-size: 1.1rem;
+      text-align: center;
+      color: var(--red);
+      margin: 0.5rem 0 1.5rem;
+      font-weight: 500;
+    }
+
+    .language-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .stat-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid rgba(197, 162, 69, 0.2);
+    }
+
+    .stat-icon {
+      font-size: 1.5rem;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: rgba(240, 240, 240, 0.7);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-value {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .language-features {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      border-radius: 6px;
+    }
+
+    .feature-item i {
+      width: 30px;
+      color: var(--gold);
+      font-size: 1.1rem;
+    }
+
+    .start-learning {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(45deg, var(--green), var(--red));
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 1px solid var(--gold);
+      margin-top: 1.5rem;
+    }
+
+    .start-learning:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(197, 162, 69, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .cards-container {
+        grid-template-columns: 1fr;
+        padding: 2rem 5%;
+      }
+      
+      .cta-foreign {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="language.html" class="cta-foreign">
+    Explore Foreign Languages →
+  </a>
+
+  <header class="header">
+    <h1>የኢትዮጵያ ቋንቋዎች</h1>
+    <p>Discover the rich linguistic heritage of Ethiopia through our comprehensive language courses. Learn authentic pronunciation, writing systems, and cultural context.</p>
+  </header>
+
+  <div class="cards-container">
+    <!-- Amharic -->
+    <div class="language-card">
+      <h2 class="language-name">አማርኛ</h2>
+      <p class="native-name">Amharic</p>
+      
+      <div class="language-stats">
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fas fa-users"></i></div>
+          <div class="stat-label">Speakers</div>
+          <div class="stat-value">32M+</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fas fa-pen-nib"></i></div>
+          <div class="stat-label">Writing System</div>
+          <div class="stat-value">Ge'ez Script</div>
+        </div>
+      </div>
+
+      <div class="language-features">
+        <div class="feature-item">
+          <i class="fas fa-star"></i>
+          Official Language of Ethiopia
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-book"></i>
+          33 Basic ፊደላት
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-globe-africa"></i>
+          Semitic Language Family
+        </div>
+      </div>
+
+      <a href="amharic_lesson.html" class="start-learning">
+        <i class="fas fa-play-circle"></i> &nbsp; መማር ይጀምሩ
+      </a>
+    </div>
+
+    <!-- Oromo -->
+    <div class="language-card">
+      <h2 class="language-name">Afaan Oromoo</h2>
+      <p class="native-name">Oromo</p>
+      
+      <div class="language-stats">
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fas fa-users"></i></div>
+          <div class="stat-label">Speakers</div>
+          <div class="stat-value">40M+</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fas fa-pen-nib"></i></div>
+          <div class="stat-label">Writing System</div>
+          <div class="stat-value">Latin Script</div>
+        </div>
+      </div>
+
+      <div class="language-features">
+        <div class="feature-item">
+          <i class="fas fa-star"></i>
+          Most Widely Spoken
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-book"></i>
+          Qubee Alphabet
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-globe-africa"></i>
+          Cushitic Family
+        </div>
+      </div>
+
+      <a href="affanoromo_lesson.html" class="start-learning">
+        <i class="fas fa-play-circle"></i> &nbsp; Baruu Jalqabaa
+      </a>
+    </div>
+
+    <!-- Tigrinya -->
+    <div class="language-card">
+      <h2 class="language-name">ትግርኛ</h2>
+      <p class="native-name">Tigrinya</p>
+      
+      <div class="language-stats">
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fas fa-users"></i></div>
+          <div class="stat-label">Speakers</div>
+          <div class="stat-value">7M+</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fas fa-pen-nib"></i></div>
+          <div class="stat-label">Writing System</div>
+          <div class="stat-value">Ge'ez Script</div>
+        </div>
+      </div>
+
+      <div class="language-features">
+        <div class="feature-item">
+          <i class="fas fa-star"></i>
+          Official in Tigray
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-book"></i>
+          Unique Verb System
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-globe-africa"></i>
+          Semitic Roots
+        </div>
+      </div>
+
+      <a href="tigrinya_lesson.html" class="start-learning">
+        <i class="fas fa-play-circle"></i> &nbsp; መምህር ጀሚርኩም
+      </a>
+    </div>
+
+    <!-- Somali -->
+    <div class="language-card">
+      <h2 class="language-name">Af Soomaali</h2>
+      <p class="native-name">Somali</p>
+      
+      <div class="language-stats">
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fas fa-users"></i></div>
+          <div class="stat-label">Speakers</div>
+          <div class="stat-value">15M+</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fas fa-pen-nib"></i></div>
+          <div class="stat-label">Writing System</div>
+          <div class="stat-value">Latin Script</div>
+        </div>
+      </div>
+
+      <div class="language-features">
+        <div class="feature-item">
+          <i class="fas fa-star"></i>
+          Official in Somali Region
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-book"></i>
+          Rich Oral Tradition
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-globe-africa"></i>
+          Cushitic Family
+        </div>
+      </div>
+
+      <a href="somali_lesson.html" class="start-learning">
+        <i class="fas fa-play-circle"></i> &nbsp; Bilow Barashada
+      </a>
+    </div>
+
+    <!-- Afar -->
+    <div class="language-card">
+      <h2 class="language-name">Qafaraf</h2>
+      <p class="native-name">Afar</p>
+      
+      <div class="language-stats">
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fas fa-users"></i></div>
+          <div class="stat-label">Speakers</div>
+          <div class="stat-value">1.5M+</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fas fa-pen-nib"></i></div>
+          <div class="stat-label">Writing System</div>
+          <div class="stat-value">Latin Script</div>
+        </div>
+      </div>
+
+      <div class="language-features">
+        <div class="feature-item">
+          <i class="fas fa-star"></i>
+          Afar Region Official
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-book"></i>
+          Unique Phonology
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-globe-africa"></i>
+          Cushitic Branch
+        </div>
+      </div>
+
+      <a href="afar_lesson.html" class="start-learning">
+        <i class="fas fa-play-circle"></i> &nbsp; Baro Qada
+      </a>
+    </div>
+
+    <!-- Sidama -->
+    <div class="language-card">
+      <h2 class="language-name">Sidaamu Afoo</h2>
+      <p class="native-name">Sidama</p>
+      
+      <div class="language-stats">
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fas fa-users"></i></div>
+          <div class="stat-label">Speakers</div>
+          <div class="stat-value">4M+</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon"><i class="fas fa-pen-nib"></i></div>
+          <div class="stat-label">Writing System</div>
+          <div class="stat-value">Latin Script</div>
+        </div>
+      </div>
+
+      <div class="language-features">
+        <div class="feature-item">
+          <i class="fas fa-star"></i>
+          Sidama Region Official
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-book"></i>
+          Tonal Language
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-globe-africa"></i>
+          Highland East Cushitic
+        </div>
+      </div>
+
+      <a href="sidama_lesson.html" class="start-learning">
+        <i class="fas fa-play-circle"></i> &nbsp; Barachuu Eegalu
+      </a>
+    </div>
+  </div>
+</body>
+</html>

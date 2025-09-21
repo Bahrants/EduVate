@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete Amharic Fidel - EduVate</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Abyssinica+SIL&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --gold: #C5A245;
+      --red: #9E2A2A;
+      --green: #2D5D46;
+      --text: #F0F0F0;
+      --bg: #1A1A1A;
+      --nav-bg: #252525;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(45deg, #1A1A1A 60%, #2D5D46 140%);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    .nav-container {
+      background: var(--nav-bg);
+      padding: 1rem 2rem;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .nav-item {
+      color: var(--text);
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+    }
+
+    .nav-item:hover::after {
+      content: attr(data-translation);
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: var(--bg);
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+
+    .hero-section {
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      background: linear-gradient(45deg, #252525 0%, #1A1A1A 100%);
+    }
+
+    .amharic-title {
+      font-family: 'Abyssinica SIL', serif;
+      font-size: 3.5rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .search-container {
+      max-width: 600px;
+      margin: 2rem auto;
+      position: relative;
+    }
+
+    #searchInput {
+      width: 100%;
+      padding: 1rem 2rem;
+      border-radius: 30px;
+      border: 2px solid var(--gold);
+      background: var(--nav-bg);
+      color: var(--text);
+      font-size: 1.1rem;
+    }
+
+    .toggle-button {
+      background: var(--green);
+      color: var(--text);
+      border: none;
+      padding: 12px 25px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+
+    .toggle-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(45, 93, 70, 0.4);
+    }
+
+    .fidel-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+      gap: 10px;
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    .fidel-char {
+      background: #252525;
+      border-radius: 10px;
+      padding: 1rem;
+      border: 2px solid var(--gold);
+      text-align: center;
+      font-size: 1.8rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Abyssinica SIL', serif;
+    }
+
+    .fidel-char.base-char {
+      border-width: 3px;
+      background: linear-gradient(45deg, #252525 0%, #9E2A2A55 100%);
+    }
+
+    .fidel-char.learned {
+      border-color: var(--green);
+      background: linear-gradient(45deg, #252525 0%, #2D5D46AA 100%);
+    }
+
+    .fidel-char:hover::after {
+      content: attr(data-pronunciation);
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--green);
+      color: var(--text);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      animation: floatUp 0.3s ease-out;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #303030;
+      margin: 2rem 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), var(--gold));
+      transition: width 0.5s ease;
+    }
+
+    .quiz-section {
+      max-width: 800px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background: #252525;
+      border-radius: 15px;
+      border: 1px solid var(--gold);
+    }
+
+    .quiz-option {
+      padding: 1rem;
+      background: #303030;
+      border: 1px solid var(--green);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 0.5rem 0;
+    }
+
+    .quiz-option.correct {
+      background: var(--green) !important;
+    }
+
+    .quiz-option.wrong {
+      background: var(--red) !important;
+    }
+
+    @keyframes floatUp {
+      from { opacity: 0; bottom: -10px; }
+      to { opacity: 1; bottom: 5px; }
+    }
+
+    @media (max-width: 768px) {
+      .amharic-title {
+        font-size: 2.5rem;
+      }
+      
+      .fidel-container {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+      
+      .nav-item {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav-container">
+    <div class="nav-links">
+      <a href="#history" class="nav-item" data-translation="History">
+        <i class="fas fa-history"></i>ታሪክ
+      </a>
+      <a href="#fidel" class="nav-item" data-translation="Alphabet">
+        <i class="fas fa-letters"></i>ፊደል
+      </a>
+      <a href="#quiz" class="nav-item" data-translation="Quiz">
+        <i class="fas fa-question"></i>ፈተና
+      </a>
+    </div>
+  </nav>
+
+  <section class="hero-section" id="history">
+    <h1 class="amharic-title">የአማርኛ ፊደል</h1>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="ፊደል ፈልግ...">
+      <i class="fas fa-search search-icon"></i>
+    </div>
+    <button class="toggle-button" id="toggleButton">ሁሉንም ፊደሎች አሳይ (234)</button>
+  </section>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <section class="fidel-container" id="fidel"></section>
+
+  <section class="quiz-section" id="quiz">
+    <div class="quiz-question" id="quizQuestion"></div>
+    <div class="quiz-options" id="quizOptions"></div>
+    <div class="score-board" id="scoreBoard">ነጥቦች: 0</div>
+  </section>
+
+  <script>
+    // Complete Fidel Data (34 groups x 7 characters = 238 total)
+    const amharicFidel = [
+      // ሀ Family
+      {char: 'ሀ', pron: 'hä', base: true}, {char: 'ሁ', pron: 'hu'}, {char: 'ሂ', pron: 'hi'},
+      {char: 'ሃ', pron: 'ha'}, {char: 'ሄ', pron: 'he'}, {char: 'ህ', pron: 'hə'}, {char: 'ሆ', pron: 'ho'},
+      
+      // ለ Family
+      {char: 'ለ', pron: 'lä', base: true}, {char: 'ሉ', pron: 'lu'}, {char: 'ሊ', pron: 'li'},
+      {char: 'ላ', pron: 'la'}, {char: 'ሌ', pron: 'le'}, {char: 'ል', pron: 'lə'}, {char: 'ሎ', pron: 'lo'},
+      
+      // ሐ Family
+      {char: 'ሐ', pron: 'ḥä', base: true}, {char: 'ሑ', pron: 'ḥu'}, {char: 'ሒ', pron: 'ḥi'},
+      {char: 'ሓ', pron: 'ḥa'}, {char: 'ሔ', pron: 'ḥe'}, {char: 'ሕ', pron: 'ḥə'}, {char: 'ሖ', pron: 'ḥo'},
+      
+      // መ Family
+      {char: 'መ', pron: 'mä', base: true}, {char: 'ሙ', pron: 'mu'}, {char: 'ሚ', pron: 'mi'},
+      {char: 'ማ', pron: 'ma'}, {char: 'ሜ', pron: 'me'}, {char: 'ም', pron: 'mə'}, {char: 'ሞ', pron: 'mo'},
+      
+      // ሠ Family
+      {char: 'ሠ', pron: 'śä', base: true}, {char: 'ሡ', pron: 'śu'}, {char: 'ሢ', pron: 'śi'},
+      {char: 'ሣ', pron: 'śa'}, {char: 'ሤ', pron: 'śe'}, {char: 'ሥ', pron: 'śə'}, {char: 'ሦ', pron: 'śo'},
+      
+      // ረ Family
+      {char: 'ረ', pron: 'rä', base: true}, {char: 'ሩ', pron: 'ru'}, {char: 'ሪ', pron: 'ri'},
+      {char: 'ራ', pron: 'ra'}, {char: 'ሬ', pron: 're'}, {char: 'ር', pron: 'rə'}, {char: 'ሮ', pron: 'ro'},
+      
+      // ሰ Family
+      {char: 'ሰ', pron: 'sä', base: true}, {char: 'ሱ', pron: 'su'}, {char: 'ሲ', pron: 'si'},
+      {char: 'ሳ', pron: 'sa'}, {char: 'ሴ', pron: 'se'}, {char: 'ስ', pron: 'sə'}, {char: 'ሶ', pron: 'so'},
+      
+      // ሸ Family
+      {char: 'ሸ', pron: 'shä', base: true}, {char: 'ሹ', pron: 'shu'}, {char: 'ሺ', pron: 'shi'},
+      {char: 'ሻ', pron: 'sha'}, {char: 'ሼ', pron: 'she'}, {char: 'ሽ', pron: 'shə'}, {char: 'ሾ', pron: 'sho'},
+      
+      // ቀ Family
+      {char: 'ቀ', pron: 'qä', base: true}, {char: 'ቁ', pron: 'qu'}, {char: 'ቂ', pron: 'qi'},
+      {char: 'ቃ', pron: 'qa'}, {char: 'ቄ', pron: 'qe'}, {char: 'ቅ', pron: 'qə'}, {char: 'ቆ', pron: 'qo'},
+      
+      // በ Family
+      {char: 'በ', pron: 'bä', base: true}, {char: 'ቡ', pron: 'bu'}, {char: 'ቢ', pron: 'bi'},
+      {char: 'ባ', pron: 'ba'}, {char: 'ቤ', pron: 'be'}, {char: 'ብ', pron: 'bə'}, {char: 'ቦ', pron: 'bo'},
+      
+      // ቨ Family
+      {char: 'ቨ', pron: 'vä', base: true}, {char: 'ቩ', pron: 'vu'}, {char: 'ቪ', pron: 'vi'},
+      {char: 'ቫ', pron: 'va'}, {char: 'ቬ', pron: 've'}, {char: 'ቭ', pron: 'və'}, {char: 'ቮ', pron: 'vo'},
+      
+      // ተ Family
+      {char: 'ተ', pron: 'tä', base: true}, {char: 'ቱ', pron: 'tu'}, {char: 'ቲ', pron: 'ti'},
+      {char: 'ታ', pron: 'ta'}, {char: 'ቴ', pron: 'te'}, {char: 'ት', pron: 'tə'}, {char: 'ቶ', pron: 'to'},
+      
+      // ቸ Family
+      {char: 'ቸ', pron: 'chä', base: true}, {char: 'ቹ', pron: 'chu'}, {char: 'ቺ', pron: 'chi'},
+      {char: 'ቻ', pron: 'cha'}, {char: 'ቼ', pron: 'che'}, {char: 'ች', pron: 'chə'}, {char: 'ቾ', pron: 'cho'},
+      
+      // ኀ Family
+      {char: 'ኀ', pron: 'hä', base: true}, {char: 'ኁ', pron: 'hu'}, {char: 'ኂ', pron: 'hi'},
+      {char: 'ኃ', pron: 'ha'}, {char: 'ኄ', pron: 'he'}, {char: 'ኅ', pron: 'hə'}, {char: 'ኆ', pron: 'ho'},
+      
+      // ነ Family
+      {char: 'ነ', pron: 'nä', base: true}, {char: 'ኑ', pron: 'nu'}, {char: 'ኒ', pron: 'ni'},
+      {char: 'ና', pron: 'na'}, {char: 'ኔ', pron: 'ne'}, {char: 'ን', pron: 'nə'}, {char: 'ኖ', pron: 'no'},
+      
+      // ኘ Family
+      {char: 'ኘ', pron: 'ñä', base: true}, {char: 'ኙ', pron: 'ñu'}, {char: 'ኚ', pron: 'ñi'},
+      {char: 'ኛ', pron: 'ña'}, {char: 'ኜ', pron: 'ñe'}, {char: 'ኝ', pron: 'ñə'}, {char: 'ኞ', pron: 'ño'},
+      
+      // አ Family
+      {char: 'አ', pron: 'ʾä', base: true}, {char: 'ኡ', pron: 'ʾu'}, {char: 'ኢ', pron: 'ʾi'},
+      {char: 'ኣ', pron: 'ʾa'}, {char: 'ኤ', pron: 'ʾe'}, {char: 'እ', pron: 'ʾə'}, {char: 'ኦ', pron: 'ʾo'},
+      
+      // ከ Family
+      {char: 'ከ', pron: 'kä', base: true}, {char: 'ኩ', pron: 'ku'}, {char: 'ኪ', pron: 'ki'},
+      {char: 'ካ', pron: 'ka'}, {char: 'ኬ', pron: 'ke'}, {char: 'ክ', pron: 'kə'}, {char: 'ኮ', pron: 'ko'},
+      
+      // ኸ Family
+      {char: 'ኸ', pron: 'khä', base: true}, {char: 'ኹ', pron: 'khu'}, {char: 'ኺ', pron: 'khi'},
+      {char: 'ኻ', pron: 'kha'}, {char: 'ኼ', pron: 'khe'}, {char: 'ኽ', pron: 'khə'}, {char: 'ኾ', pron: 'kho'},
+      
+      // ወ Family
+      {char: 'ወ', pron: 'wä', base: true}, {char: 'ዉ', pron: 'wu'}, {char: 'ዊ', pron: 'wi'},
+      {char: 'ዋ', pron: 'wa'}, {char: 'ዌ', pron: 'we'}, {char: 'ው', pron: 'wə'}, {char: 'ዎ', pron: 'wo'},
+      
+      // ዐ Family
+      {char: 'ዐ', pron: 'ʿä', base: true}, {char: 'ዑ', pron: 'ʿu'}, {char: 'ዒ', pron: 'ʿi'},
+      {char: 'ዓ', pron: 'ʿa'}, {char: 'ዔ', pron: 'ʿe'}, {char: 'ዕ', pron: 'ʿə'}, {char: 'ዖ', pron: 'ʿo'},
+      
+      // ዘ Family
+      {char: 'ዘ', pron: 'zä', base: true}, {char: 'ዙ', pron: 'zu'}, {char: 'ዚ', pron: 'zi'},
+      {char: 'ዛ', pron: 'za'}, {char: 'ዜ', pron: 'ze'}, {char: 'ዝ', pron: 'zə'}, {char: 'ዞ', pron: 'zo'},
+      
+      // ዠ Family
+      {char: 'ዠ', pron: 'zhä', base: true}, {char: 'ዡ', pron: 'zhu'}, {char: 'ዢ', pron: 'zhi'},
+      {char: 'ዣ', pron: 'zha'}, {char: 'ዤ', pron: 'zhe'}, {char: 'ዥ', pron: 'zhə'}, {char: 'ዦ', pron: 'zho'},
+      
+      // የ Family
+      {char: 'የ', pron: 'yä', base: true}, {char: 'ዩ', pron: 'yu'}, {char: 'ዪ', pron: 'yi'},
+      {char: 'ያ', pron: 'ya'}, {char: 'ዬ', pron: 'ye'}, {char: 'ይ', pron: 'yə'}, {char: 'ዮ', pron: 'yo'},
+      
+      // ደ Family
+      {char: 'ደ', pron: 'dä', base: true}, {char: 'ዱ', pron: 'du'}, {char: 'ዲ', pron: 'di'},
+      {char: 'ዳ', pron: 'da'}, {char: 'ዴ', pron: 'de'}, {char: 'ድ', pron: 'də'}, {char: 'ዶ', pron: 'do'},
+      
+      // ጀ Family
+      {char: 'ጀ', pron: 'jä', base: true}, {char: 'ጁ', pron: 'ju'}, {char: 'ጂ', pron: 'ji'},
+      {char: 'ጃ', pron: 'ja'}, {char: 'ጄ', pron: 'je'}, {char: 'ጅ', pron: 'jə'}, {char: 'ጆ', pron: 'jo'},
+      
+      // ገ Family
+      {char: 'ገ', pron: 'gä', base: true}, {char: 'ጉ', pron: 'gu'}, {char: 'ጊ', pron: 'gi'},
+      {char: 'ጋ', pron: 'ga'}, {char: 'ጌ', pron: 'ge'}, {char: 'ግ', pron: 'gə'}, {char: 'ጎ', pron: 'go'},
+      
+      // ጠ Family
+      {char: 'ጠ', pron: 'ṭä', base: true}, {char: 'ጡ', pron: 'ṭu'}, {char: 'ጢ', pron: 'ṭi'},
+      {char: 'ጣ', pron: 'ṭa'}, {char: 'ጤ', pron: 'ṭe'}, {char: 'ጥ', pron: 'ṭə'}, {char: 'ጦ', pron: 'ṭo'},
+      
+      // ጨ Family
+      {char: 'ጨ', pron: 'ch’ä', base: true}, {char: 'ጩ', pron: 'ch’u'}, {char: 'ጪ', pron: 'ch’i'},
+      {char: 'ጫ', pron: 'ch’a'}, {char: 'ጬ', pron: 'ch’e'}, {char: 'ጭ', pron: 'ch’ə'}, {char: 'ጮ', pron: 'ch’o'},
+      
+      // ጰ Family
+      {char: 'ጰ', pron: 'p’ä', base: true}, {char: 'ጱ', pron: 'p’u'}, {char: 'ጲ', pron: 'p’i'},
+      {char: 'ጳ', pron: 'p’a'}, {char: 'ጴ', pron: 'p’e'}, {char: 'ጵ', pron: 'p’ə'}, {char: 'ጶ', pron: 'p’o'},
+      
+      // ጸ Family
+      {char: 'ጸ', pron: 'ts’ä', base: true}, {char: 'ጹ', pron: 'ts’u'}, {char: 'ጺ', pron: 'ts’i'},
+      {char: 'ጻ', pron: 'ts’a'}, {char: 'ጼ', pron: 'ts’e'}, {char: 'ጽ', pron: 'ts’ə'}, {char: 'ጾ', pron: 'ts’o'},
+      
+      // ፀ Family
+      {char: 'ፀ', pron: 'ḍä', base: true}, {char: 'ፁ', pron: 'ḍu'}, {char: 'ፂ', pron: 'ḍi'},
+      {char: 'ፃ', pron: 'ḍa'}, {char: 'ፄ', pron: 'ḍe'}, {char: 'ፅ', pron: 'ḍə'}, {char: 'ፆ', pron: 'ḍo'},
+      
+      // ፈ Family
+      {char: 'ፈ', pron: 'fä', base: true}, {char: 'ፉ', pron: 'fu'}, {char: 'ፊ', pron: 'fi'},
+      {char: 'ፋ', pron: 'fa'}, {char: 'ፌ', pron: 'fe'}, {char: 'ፍ', pron: 'fə'}, {char: 'ፎ', pron: 'fo'},
+      
+      // ፐ Family
+      {char: 'ፐ', pron: 'pä', base: true}, {char: 'ፑ', pron: 'pu'}, {char: 'ፒ', pron: 'pi'},
+      {char: 'ፓ', pron: 'pa'}, {char: 'ፔ', pron: 'pe'}, {char: 'ፕ', pron: 'pə'}, {char: 'ፖ', pron: 'po'}
+    ];
+
+    // App State and Functionality
+    let showAll = false;
+    let learnedChars = JSON.parse(localStorage.getItem('learnedChars')) || [];
+    let currentQuestion = 0;
+    let score = 0;
+
+    // Initialize Components
+    const fidelContainer = document.getElementById('fidel');
+    const toggleButton = document.getElementById('toggleButton');
+
+    function renderFidel() {
+      fidelContainer.innerHTML = '';
+      amharicFidel.forEach(fidel => {
+        if(!showAll && !fidel.base) return;
+        
+        const div = document.createElement('div');
+        div.className = `fidel-char ${fidel.base ? 'base-char' : ''} ${learnedChars.includes(fidel.char) ? 'learned' : ''}`;
+        div.textContent = fidel.char;
+        div.dataset.pronunciation = fidel.pron;
+        div.onclick = handleCharClick;
+        fidelContainer.appendChild(div);
+      });
+    }
+
+    function handleCharClick(e) {
+      const char = e.target.textContent;
+      e.target.classList.toggle('learned');
+      learnedChars = learnedChars.includes(char) 
+        ? learnedChars.filter(c => c !== char) 
+        : [...learnedChars, char];
+      localStorage.setItem('learnedChars', JSON.stringify(learnedChars));
+      updateProgress();
+    }
+
+    // Toggle View
+    toggleButton.addEventListener('click', () => {
+      showAll = !showAll;
+      toggleButton.textContent = showAll 
+        ? "የመሠረት ፊደሎች ብቻ አሳይ (34)" 
+        : "ሁሉንም ፊደሎች አሳይ (234)";
+      renderFidel();
+    });
+
+    // Progress System
+    function updateProgress() {
+      const total = showAll ? 234 : 34;
+      const progress = (learnedChars.length / total) * 100;
+      document.getElementById('progressFill').style.width = `${progress}%`;
+    }
+
+    // Quiz System
+    const quizData = [
+      {
+        question: "'ሸ' የሚባለው ፊደል ከሚከተሉት ውስጥ የትኛውን ድምጽ ያሳያል?",
+        options: ["shä", "chä", "hä", "fä"],
+        correct: 0
+      },
+      {
+        question: "'ኘ' ፊደል የሚገልጸው ድምጽ የትኛው ነው?",
+        options: ["nyä", "yä", "nä", "gä"],
+        correct: 0
+      },
+      {
+        question: "'ጨ' ፊደል የሚያሳየው ድምጽ የትኛው ነው?",
+        options: ["ch’ä", "ts’ä", "ṭä", "p’ä"],
+        correct: 0
+      }
+    ];
+
+    function showQuestion() {
+      const q = quizData[currentQuestion];
+      document.getElementById('quizQuestion').textContent = q.question;
+      const optionsDiv = document.getElementById('quizOptions');
+      optionsDiv.innerHTML = q.options.map((option, index) => `
+        <div class="quiz-option" onclick="checkAnswer(${index})">${option}</div>
+      `).join('');
+    }
+
+    function checkAnswer(selectedIndex) {
+      const correctIndex = quizData[currentQuestion].correct;
+      const options = document.querySelectorAll('.quiz-option');
+      
+      options.forEach((option, index) => {
+        option.classList.toggle('correct', index === correctIndex);
+        option.classList.toggle('wrong', index === selectedIndex && index !== correctIndex);
+      });
+
+      if(selectedIndex === correctIndex) score++;
+      document.getElementById('scoreBoard').textContent = `ነጥቦች: ${score}`;
+      
+      setTimeout(() => {
+        currentQuestion = (currentQuestion + 1) % quizData.length;
+        showQuestion();
+      }, 1500);
+    }
+
+    // Initialize App
+    document.addEventListener('DOMContentLoaded', () => {
+      renderFidel();
+      showQuestion();
+      updateProgress();
+      
+      // Search Functionality
+      document.getElementById('searchInput').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        document.querySelectorAll('.fidel-char').forEach(char => {
+          char.style.display = char.textContent.toLowerCase().includes(searchTerm) 
+            ? 'grid' 
+            : 'none';
+        });
+      });
+
+      // Voice Synthesis
+      if('speechSynthesis' in window) {
+        window.speechSynthesis.onvoiceschanged = () => {
+          window.amharicVoice = speechSynthesis.getVoices().find(voice => 
+            voice.lang === 'am-ET' || voice.name.includes('Amharic'));
+        };
+        
+        document.querySelectorAll('.fidel-char').forEach(char => {
+          char.addEventListener('click', function(e) {
+            const synth = window.speechSynthesis;
+            const utterance = new SpeechSynthesisUtterance(e.target.textContent);
+            utterance.voice = window.amharicVoice || synth.getVoices()[0];
+            synth.speak(utterance);
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>

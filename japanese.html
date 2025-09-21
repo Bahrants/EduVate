@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduVate - Learn Japanese</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    :root {
+      --primary-color: #ff0057;
+      --background: #0f0f1f;
+      --card-bg: #1a1a2f;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--background);
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      min-height: 80vh;
+    }
+
+    .section {
+      display: none;
+      position: absolute;
+      width: 100%;
+    }
+
+    .active-section {
+      display: block;
+    }
+
+    .writing-system-select {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .system-card {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .system-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .lesson-content {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      margin: 20px 0;
+    }
+
+    .kana-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .kana-card {
+      background: #2a2a4a;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .kana-card:hover {
+      transform: scale(1.05);
+    }
+
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    button {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      margin: 10px 0;
+      transition: opacity 0.3s;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #2a2a4a;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+
+    .progress {
+      height: 100%;
+      background: var(--primary-color);
+      border-radius: 4px;
+      transition: width 0.3s;
+    }
+
+    .question-card {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      margin: 20px 0;
+    }
+
+    .option-button {
+      width: 100%;
+      margin: 5px 0;
+      background: #2a2a4a;
+      text-align: left;
+      padding: 15px;
+    }
+
+    .option-button.correct {
+      background: #2ecc71 !important;
+    }
+
+    .option-button.wrong {
+      background: #e74c3c !important;
+    }
+
+    .explanation {
+      margin: 20px 0;
+      padding: 20px;
+      background: #2a2a4a;
+      border-radius: 10px;
+    }
+
+    .third-party-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--primary-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Writing System Selection -->
+    <div class="section active-section" id="system-select">
+      <h1 class="animate__animated animate__fadeIn">Choose a Writing System</h1>
+      <div class="writing-system-select">
+        <div class="system-card" onclick="loadLesson('hiragana')">
+          <h2>ひらがな</h2>
+          <p>Japanese Syllabary</p>
+          <small>Start with the basics</small>
+        </div>
+        <div class="system-card" onclick="loadLesson('katakana')">
+          <h2>カタカナ</h2>
+          <p>Foreign Words Script</p>
+          <small>Loanwords and emphasis</small>
+        </div>
+        <div class="system-card" onclick="loadLesson('kanji')">
+          <h2>漢字</h2>
+          <p>Chinese Characters</p>
+          <small>Advanced characters</small>
+        </div>
+      </div>
+      <div class="explanation">
+        <h3>About Japanese Writing Systems</h3>
+        <p>Japanese uses three writing systems simultaneously:</p>
+        <ul>
+          <li><strong>Hiragana:</strong> Phonetic alphabet for native words</li>
+          <li><strong>Katakana:</strong> Used for foreign words and emphasis</li>
+          <li><strong>Kanji:</strong> Chinese-derived characters with meanings</li>
+        </ul>
+        <p>Recommended learning order: Hiragana → Katakana → Kanji</p>
+      </div>
+    </div>
+
+    <!-- Lesson Section -->
+    <div class="section" id="lesson-section">
+      <div class="navigation-buttons">
+        <button onclick="goBack()">← Back to Selection</button>
+        <button id="continue-btn" onclick="startPractice()">Start Practice →</button>
+      </div>
+      <div class="lesson-content" id="lesson-content"></div>
+    </div>
+
+    <!-- Practice Section -->
+    <div class="section" id="practice-section">
+      <div class="navigation-buttons">
+        <button onclick="returnToLesson()">← Back to Lesson</button>
+        <button onclick="resetProgress()">↻ Reset Progress</button>
+      </div>
+      <div class="progress-bar">
+        <div class="progress" id="quiz-progress"></div>
+      </div>
+      <div id="quiz-content"></div>
+    </div>
+  </div>
+
+  <script>
+    const writingSystems = {
+      hiragana: {
+        title: "ひらがな (Hiragana)",
+        description: `
+          <div class="explanation">
+            <h3>Mastering Hiragana</h3>
+            <p>Hiragana is the foundation of Japanese writing. Key facts:</p>
+            <ul>
+              <li>46 basic characters + 25 modified forms</li>
+              <li>Used for native Japanese words</li>
+              <li>Represents all possible sounds in Japanese</li>
+              <li>Essential for grammar particles and verb endings</li>
+            </ul>
+            <p>Practice tips: 
+              <a href="https://www.tofugu.com/japanese/learn-hiragana/" class="third-party-link" target="_blank">
+                Tofugu's Hiragana Guide
+              </a>
+            </p>
+          </div>
+        `,
+        characters: [
+          { char: "あ", romaji: "a" }, { char: "い", romaji: "i" }, { char: "う", romaji: "u" },
+          { char: "え", romaji: "e" }, { char: "お", romaji: "o" }, { char: "か", romaji: "ka" },
+          { char: "き", romaji: "ki" }, { char: "く", romaji: "ku" }, { char: "け", romaji: "ke" },
+          { char: "こ", romaji: "ko" }, { char: "さ", romaji: "sa" }, { char: "し", romaji: "shi" },
+          { char: "す", romaji: "su" }, { char: "せ", romaji: "se" }, { char: "そ", romaji: "so" },
+          { char: "た", romaji: "ta" }, { char: "ち", romaji: "chi" }, { char: "つ", romaji: "tsu" },
+          { char: "て", romaji: "te" }, { char: "と", romaji: "to" }, { char: "な", romaji: "na" },
+          { char: "に", romaji: "ni" }, { char: "ぬ", romaji: "nu" }, { char: "ね", romaji: "ne" },
+          { char: "の", romaji: "no" }, { char: "は", romaji: "ha" }, { char: "ひ", romaji: "hi" },
+          { char: "ふ", romaji: "fu" }, { char: "へ", romaji: "he" }, { char: "ほ", romaji: "ho" },
+          { char: "ま", romaji: "ma" }, { char: "み", romaji: "mi" }, { char: "む", romaji: "mu" },
+          { char: "め", romaji: "me" }, { char: "も", romaji: "mo" }, { char: "や", romaji: "ya" },
+          { char: "ゆ", romaji: "yu" }, { char: "よ", romaji: "yo" }, { char: "ら", romaji: "ra" },
+          { char: "り", romaji: "ri" }, { char: "る", romaji: "ru" }, { char: "れ", romaji: "re" },
+          { char: "ろ", romaji: "ro" }, { char: "わ", romaji: "wa" }, { char: "を", romaji: "wo" },
+          { char: "ん", romaji: "n" }
+        ]
+      },
+      katakana: {
+        title: "カタカナ (Katakana)",
+        description: `
+          <div class="explanation">
+            <h3>Understanding Katakana</h3>
+            <p>Katakana is used for:</p>
+            <ul>
+              <li>Foreign loanwords (e.g., コーヒー = kōhī = coffee)</li>
+              <li>Scientific terms</li>
+              <li>Animal names</li>
+              <li>Onomatopoeia</li>
+            </ul>
+            <p>Learning resource: 
+              <a href="https://www.tofugu.com/japanese/learn-katakana/" class="third-party-link" target="_blank">
+                Tofugu's Katakana Guide
+              </a>
+            </p>
+          </div>
+        `,
+        characters: [
+          { char: "ア", romaji: "a" }, { char: "イ", romaji: "i" }, { char: "ウ", romaji: "u" },
+          { char: "エ", romaji: "e" }, { char: "オ", romaji: "o" }, { char: "カ", romaji: "ka" },
+          { char: "キ", romaji: "ki" }, { char: "ク", romaji: "ku" }, { char: "ケ", romaji: "ke" },
+          { char: "コ", romaji: "ko" }, { char: "サ", romaji: "sa" }, { char: "シ", romaji: "shi" },
+          { char: "ス", romaji: "su" }, { char: "セ", romaji: "se" }, { char: "ソ", romaji: "so" },
+          { char: "タ", romaji: "ta" }, { char: "チ", romaji: "chi" }, { char: "ツ", romaji: "tsu" },
+          { char: "テ", romaji: "te" }, { char: "ト", romaji: "to" }, { char: "ナ", romaji: "na" },
+          { char: "ニ", romaji: "ni" }, { char: "ヌ", romaji: "nu" }, { char: "ネ", romaji: "ne" },
+          { char: "ノ", romaji: "no" }, { char: "ハ", romaji: "ha" }, { char: "ヒ", romaji: "hi" },
+          { char: "フ", romaji: "fu" }, { char: "ヘ", romaji: "he" }, { char: "ホ", romaji: "ho" },
+          { char: "マ", romaji: "ma" }, { char: "ミ", romaji: "mi" }, { char: "ム", romaji: "mu" },
+          { char: "メ", romaji: "me" }, { char: "モ", romaji: "mo" }, { char: "ヤ", romaji: "ya" },
+          { char: "ユ", romaji: "yu" }, { char: "ヨ", romaji: "yo" }, { char: "ラ", romaji: "ra" },
+          { char: "リ", romaji: "ri" }, { char: "ル", romaji: "ru" }, { char: "レ", romaji: "re" },
+          { char: "ロ", romaji: "ro" }, { char: "ワ", romaji: "wa" }, { char: "ヲ", romaji: "wo" },
+          { char: "ン", romaji: "n" }
+        ]
+      },
+      kanji: {
+        title: "漢字 (Kanji)",
+        description: `
+          <div class="explanation">
+            <h3>Kanji Fundamentals</h3>
+            <p>Essential facts about Kanji:</p>
+            <ul>
+              <li>About 2,000 characters needed for basic literacy</li>
+              <li>Each character has multiple readings</li>
+              <li>Combined to create compound words</li>
+              <li>Learn radicals (components) to memorize easier</li>
+            </ul>
+            <p>Recommended resource: 
+              <a href="https://www.wanikani.com/" class="third-party-link" target="_blank">
+                WaniKani Kanji Learning System
+              </a>
+            </p>
+          </div>
+        `,
+        characters: [
+          { char: "日", meaning: "Sun/Day" }, { char: "月", meaning: "Moon/Month" },
+          { char: "水", meaning: "Water" }, { char: "木", meaning: "Tree" },
+          { char: "火", meaning: "Fire" }, { char: "山", meaning: "Mountain" },
+          { char: "川", meaning: "River" }, { char: "田", meaning: "Rice Field" },
+          { char: "人", meaning: "Person" }, { char: "口", meaning: "Mouth" },
+          { char: "手", meaning: "Hand" }, { char: "足", meaning: "Foot" },
+          { char: "目", meaning: "Eye" }, { char: "耳", meaning: "Ear" },
+          { char: "車", meaning: "Car" }, { char: "金", meaning: "Gold/Money" }
+        ]
+      }
+    };
+
+    let currentSystem = null;
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    function loadLesson(system) {
+      currentSystem = system;
+      document.getElementById('system-select').classList.remove('active-section');
+      document.getElementById('lesson-section').classList.add('active-section');
+      
+      const content = document.getElementById('lesson-content');
+      content.innerHTML = `
+        <h1>${writingSystems[system].title}</h1>
+        ${writingSystems[system].description}
+        <h3>Character Chart</h3>
+        <div class="kana-grid">
+          ${writingSystems[system].characters.map(char => `
+            <div class="kana-card" onclick="playSound('${char.char}')">
+              ${char.char}<br>
+              <small>${char.romaji || char.meaning}</small>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function startPractice() {
+      document.getElementById('lesson-section').classList.remove('active-section');
+      document.getElementById('practice-section').classList.add('active-section');
+      currentQuestionIndex = 0;
+      score = 0;
+      loadNextQuestion();
+    }
+
+    function loadNextQuestion() {
+      const quizContent = document.getElementById('quiz-content');
+      const currentChar = writingSystems[currentSystem].characters[currentQuestionIndex];
+      
+      quizContent.innerHTML = `
+        <div class="question-card animate__animated animate__fadeIn">
+          <h2>What is this ${currentSystem === 'kanji' ? 'kanji' : 'kana'}?</h2>
+          <div style="font-size: 72px; margin: 30px">${currentChar.char}</div>
+          <div id="options-container">
+            ${getRandomOptions(currentChar).map(option => `
+              <button class="option-button" onclick="checkAnswer('${option}')">
+                ${option}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+      updateProgress();
+    }
+
+    function getRandomOptions(correctChar) {
+      const options = [correctChar.romaji || correctChar.meaning];
+      while (options.length < 4) {
+        const randomChar = writingSystems[currentSystem].characters[
+          Math.floor(Math.random() * writingSystems[currentSystem].characters.length)
+        ];
+        const option = randomChar.romaji || randomChar.meaning;
+        if (!options.includes(option)) options.push(option);
+      }
+      return options.sort(() => Math.random() - 0.5);
+    }
+
+    function checkAnswer(selected) {
+      const correctAnswer = writingSystems[currentSystem].characters[currentQuestionIndex].romaji || 
+                           writingSystems[currentSystem].characters[currentQuestionIndex].meaning;
+      const buttons = document.querySelectorAll('.option-button');
+
+      buttons.forEach(button => {
+        button.disabled = true;
+        if (button.textContent === correctAnswer) button.classList.add('correct');
+        if (button.textContent === selected && selected !== correctAnswer) button.classList.add('wrong');
+      });
+
+      if (selected === correctAnswer) score++;
+
+      setTimeout(() => {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < writingSystems[currentSystem].characters.length) {
+          loadNextQuestion();
+        } else {
+          showResults();
+        }
+      }, 1500);
+    }
+
+    function updateProgress() {
+      const progress = (currentQuestionIndex / writingSystems[currentSystem].characters.length) * 100;
+      document.getElementById('quiz-progress').style.width = `${progress}%`;
+    }
+
+    function showResults() {
+      document.getElementById('quiz-content').innerHTML = `
+        <div class="question-card animate__animated animate__bounceIn">
+          <h2>Practice Complete! 🎉</h2>
+          <p>Your score: ${score}/${writingSystems[currentSystem].characters.length}</p>
+          <button onclick="startPractice()">Try Again</button>
+          <button onclick="loadLesson('${currentSystem}')">Review Lesson</button>
+          <button onclick="goBack()">Choose Another System</button>
+        </div>
+      `;
+    }
+
+    function goBack() {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active-section');
+      });
+      document.getElementById('system-select').classList.add('active-section');
+    }
+
+    function returnToLesson() {
+      document.getElementById('practice-section').classList.remove('active-section');
+      document.getElementById('lesson-section').classList.add('active-section');
+    }
+
+    function resetProgress() {
+      currentQuestionIndex = 0;
+      score = 0;
+      loadNextQuestion();
+    }
+
+    function playSound(kana) {
+      const synth = window.speechSynthesis;
+      const utterance = new SpeechSynthesisUtterance(kana);
+      utterance.lang = 'ja-JP';
+      synth.speak(utterance);
+    }
+  </script>
+</body>
+</html>

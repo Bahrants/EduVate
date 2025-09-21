@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinguaFlow - Complete Russian Course</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+    <style>
+        :root {
+            --bg-dark: #0a0a12;
+            --accent-pink: #ff4d79;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0c0;
+            --card-bg: #1a1a2f;
+            --success-green: #2ecc71;
+            --error-red: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            border-bottom: 2px solid var(--accent-pink);
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(45deg, var(--accent-pink), #ff7eb3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .letter-card {
+            background: var(--card-bg);
+            border: 2px solid var(--accent-pink);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .letter-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,77,121,0.1);
+        }
+
+        .pronunciation {
+            font-size: 0.9rem;
+            color: var(--accent-pink);
+            position: absolute;
+            bottom: 5px;
+            width: 100%;
+            left: 0;
+        }
+
+        .translation-box {
+            background: #2a2a4a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-pink);
+        }
+
+        .phrase-card {
+            background: var(--card-bg);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        button {
+            background: var(--accent-pink);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            margin: 0.5rem;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+
+        th, td {
+            padding: 1rem;
+            border: 1px solid #2a2a4a;
+            text-align: left;
+        }
+
+        th {
+            background: var(--accent-pink);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            background: #2a2a4a;
+            border: 2px solid var(--accent-pink);
+            border-radius: 8px;
+            color: white;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Learn Russian</h1>
+            <p>Cyrillic Alphabet → Basic Conversations</p>
+        </div>
+
+        <!-- Cyrillic Alphabet Section -->
+        <section class="section">
+            <h2>Cyrillic Alphabet</h2>
+            <div class="alphabet-grid" id="cyrillicGrid"></div>
+        </section>
+
+        <!-- Translation Section -->
+        <section class="section">
+            <h2>Translation Practice</h2>
+            <textarea id="inputText" placeholder="Type Russian text here..." rows="3"></textarea>
+            <button onclick="translateText()">Translate</button>
+            <div class="translation-box">
+                <div id="russianDisplay" class="cyrillic-text" style="font-size: 1.2rem;"></div>
+                <div id="translationResult" class="translation-text" style="color: var(--text-secondary); margin-top: 1rem;"></div>
+            </div>
+        </section>
+
+        <!-- Phonics Section -->
+        <section class="section">
+            <h2>Russian Sounds</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Letter</th>
+                        <th>Sound</th>
+                        <th>Example</th>
+                        <th>Audio</th>
+                    </tr>
+                </thead>
+                <tbody id="phonicsTable"></tbody>
+            </table>
+        </section>
+
+        <!-- Phrasebook Section -->
+        <section class="section">
+            <h2>Essential Phrases</h2>
+            <div id="phrasebook"></div>
+        </section>
+    </div>
+
+    <script>
+        // Cyrillic Alphabet Data
+        const cyrillicAlphabet = [
+            { char: 'А', sound: 'a', example: 'Ананас (pineapple)' },
+            { char: 'Б', sound: 'b', example: 'Банан (banana)' },
+            { char: 'В', sound: 'v', example: 'Вода (water)' },
+            { char: 'Г', sound: 'g', example: 'Город (city)' },
+            { char: 'Д', sound: 'd', example: 'Дом (house)' },
+            { char: 'Е', sound: 'ye', example: 'Еда (food)' },
+            { char: 'Ё', sound: 'yo', example: 'Ёлка (fir tree)' },
+            { char: 'Ж', sound: 'zh', example: 'Журнал (magazine)' },
+            { char: 'З', sound: 'z', example: 'Зима (winter)' },
+            { char: 'И', sound: 'ee', example: 'Игра (game)' },
+            { char: 'Й', sound: 'y', example: 'Йогурт (yogurt)' },
+            { char: 'К', sound: 'k', example: 'Книга (book)' },
+            { char: 'Л', sound: 'l', example: 'Лето (summer)' },
+            { char: 'М', sound: 'm', example: 'Мама (mother)' },
+            { char: 'Н', sound: 'n', example: 'Ночь (night)' },
+            { char: 'О', sound: 'o', example: 'Окно (window)' },
+            { char: 'П', sound: 'p', example: 'Папа (father)' },
+            { char: 'Р', sound: 'r', example: 'Рука (hand)' },
+            { char: 'С', sound: 's', example: 'Солнце (sun)' },
+            { char: 'Т', sound: 't', example: 'Стол (table)' },
+            { char: 'У', sound: 'u', example: 'Улица (street)' },
+            { char: 'Ф', sound: 'f', example: 'Фото (photo)' },
+            { char: 'Х', sound: 'kh', example: 'Хлеб (bread)' },
+            { char: 'Ц', sound: 'ts', example: 'Цветок (flower)' },
+            { char: 'Ч', sound: 'ch', example: 'Чай (tea)' },
+            { char: 'Ш', sound: 'sh', example: 'Школа (school)' },
+            { char: 'Щ', sound: 'shch', example: 'Щука (pike)' },
+            { char: 'Ъ', sound: 'hard sign', example: 'Подъезд (entrance)' },
+            { char: 'Ы', sound: 'i', example: 'Мы (we)' },
+            { char: 'Ь', sound: 'soft sign', example: 'День (day)' },
+            { char: 'Э', sound: 'e', example: 'Эра (era)' },
+            { char: 'Ю', sound: 'yu', example: 'Юбка (skirt)' },
+            { char: 'Я', sound: 'ya', example: 'Яблоко (apple)' }
+        ];
+
+        // Populate Alphabet Grid
+        const cyrillicGrid = document.getElementById('cyrillicGrid');
+        cyrillicAlphabet.forEach(letter => {
+            const card = document.createElement('div');
+            card.className = 'letter-card';
+            card.innerHTML = `
+                ${letter.char}
+                <div class="pronunciation">${letter.sound}</div>
+            `;
+            card.onclick = () => speakRussian(letter.char);
+            cyrillicGrid.appendChild(card);
+        });
+
+        // Phonics Table
+        const phonicsTable = document.getElementById('phonicsTable');
+        cyrillicAlphabet.forEach(letter => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${letter.char}</td>
+                <td>/${letter.sound}/</td>
+                <td>${letter.example}</td>
+                <td><button onclick="speakRussian('${letter.example.split(' ')[0]}')">▶ Play</button></td>
+            `;
+            phonicsTable.appendChild(row);
+        });
+
+        // Phrasebook Data
+        const phrases = [
+            { ru: "Здравствуйте", en: "Hello (formal)", pronunciation: "zdra-stvooy-tye" },
+            { ru: "Доброе утро", en: "Good morning", pronunciation: "dob-ro-ye oo-tro" },
+            { ru: "Как вас зовут?", en: "What's your name?", pronunciation: "kak vas za-voot" },
+            { ru: "Меня зовут...", en: "My name is...", pronunciation: "me-nya za-voot" },
+            { ru: "Спасибо", en: "Thank you", pronunciation: "spa-see-ba" },
+            { ru: "Пожалуйста", en: "Please/You're welcome", pronunciation: "pa-zhal-sta" },
+            { ru: "Где туалет?", en: "Where is the bathroom?", pronunciation: "gdye too-a-lyet" },
+            { ru: "Я не понимаю", en: "I don't understand", pronunciation: "ya nye pa-nee-mai-yu" }
+        ];
+
+        // Populate Phrasebook
+        const phrasebook = document.getElementById('phrasebook');
+        phrases.forEach(phrase => {
+            const card = document.createElement('div');
+            card.className = 'phrase-card';
+            card.innerHTML = `
+                <div style="font-size: 1.2rem;">${phrase.ru}</div>
+                <div style="color: var(--accent-pink); margin: 0.5rem 0;">${phrase.pronunciation}</div>
+                <div style="color: var(--text-secondary);">${phrase.en}</div>
+                <button onclick="speakRussian('${phrase.ru}')">▶ Hear Pronunciation</button>
+            `;
+            phrasebook.appendChild(card);
+        });
+
+        // Translation Function
+        async function translateText() {
+            const text = document.getElementById('inputText').value;
+            document.getElementById('russianDisplay').textContent = text;
+            
+            try {
+                // Replace with your Yandex API key
+                const response = await fetch(`https://translate.yandex.net/api/v1.5/tr.json/translate?key=YOUR_API_KEY&text=${encodeURIComponent(text)}&lang=ru-en`);
+                const data = await response.json();
+                document.getElementById('translationResult').textContent = data.text[0];
+            } catch (error) {
+                document.getElementById('translationResult').textContent = "Translation error - Please try again";
+            }
+        }
+
+        // Audio Functions
+        function speakRussian(text) {
+            responsiveVoice.speak(text, "Russian Female", {
+                pitch: 1,
+                rate: 0.8,
+                onerror: () => alert("Audio error - Enable audio permissions")
+            });
+        }
+
+        // Initial Translation Example
+        document.getElementById('inputText').value = "Привет, как дела?";
+        translateText();
+    </script>
+</body>
+</html>

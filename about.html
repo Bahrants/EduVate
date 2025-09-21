@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduVate - About Us</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #ff0057;
+      --secondary-color: #da1212;
+      --text-color: #ffffff;
+      --bg-color: #0a0a0a;
+      --card-bg: rgba(15, 15, 15, 0.9);
+      --gradient: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .navbar {
+      padding: 1.5rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 10, 10, 0.9);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-container:hover {
+      transform: scale(1.05);
+    }
+
+    .logo-img {
+      height: 36px;
+      filter: drop-shadow(0 0 5px var(--primary-color));
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+
+    .logo-text::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--gradient);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .logo-container:hover .logo-text::after {
+      transform: scaleX(1);
+    }
+
+    .about-header {
+      text-align: center;
+      padding: 10rem 5% 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-header::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 150vw;
+      height: 150vh;
+      background: radial-gradient(circle, rgba(255,0,87,0.1) 0%, rgba(0,0,0,0) 70%);
+      pointer-events: none;
+      animation: pulse 8s infinite linear;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+      100% { opacity: 0.3; }
+    }
+
+    .about-header h1 {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      display: inline-block;
+    }
+
+    .about-content {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 0 5%;
+      text-align: center;
+    }
+
+    .about-content p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    .language-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin: 4rem 0;
+    }
+
+    .language-card {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .language-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .language-card h4 {
+      margin: 1rem 0 0.5rem;
+    }
+
+    .language-type {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-top: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .features-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 4rem 0;
+    }
+
+    .feature-card {
+      padding: 2rem;
+      background: var(--card-bg);
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .feature-card i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .roadmap-section {
+      text-align: center;
+      margin: 4rem 0;
+      padding: 3rem;
+      background: var(--card-bg);
+      border-radius: 20px;
+    }
+
+    .mission-section {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 0 5%;
+    }
+
+    .mission-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .mission-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mission-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 2px;
+      background: var(--gradient);
+      -webkit-mask: 
+         linear-gradient(#fff 0 0) content-box, 
+         linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .mission-card:hover::before {
+      opacity: 0.3;
+    }
+
+    .mission-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(255,0,87,0.1);
+    }
+
+    .mission-card i {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .team-section {
+      padding: 6rem 5%;
+      text-align: center;
+      position: relative;
+    }
+
+    .team-member {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 3rem;
+      background: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .member-photo {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      margin: 0 auto 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .member-photo::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: var(--gradient);
+      border-radius: 50%;
+      animation: rotate 4s linear infinite;
+      z-index: -1;
+    }
+
+    .member-photo::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      background: var(--card-bg);
+      border-radius: 50%;
+    }
+
+    .member-image {
+      position: absolute;
+      width: calc(100% - 8px);
+      height: calc(100% - 8px);
+      border-radius: 50%;
+      object-fit: cover;
+      z-index: 2;
+      top: 4px;
+      left: 4px;
+    }
+
+    @keyframes rotate {
+      100% { transform: rotate(360deg); }
+    }
+
+    .cta-section {
+      text-align: center;
+      padding: 6rem 5%;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 1rem 2.5rem;
+      background: var(--gradient);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.2),
+        transparent
+      );
+      transition: 0.5s;
+    }
+
+    .cta-btn:hover::before {
+      left: 100%;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(255,0,87,0.3);
+    }
+
+    @media (max-width: 768px) {
+      .about-header h1 {
+        font-size: 2rem;
+      }
+      
+      .mission-card {
+        padding: 1.5rem;
+      }
+      
+      .member-photo {
+        width: 150px;
+        height: 150px;
+      }
+      
+      .language-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo-container">
+      <img src="https://cdn-icons-png.flaticon.com/512/9903/9903951.png" alt="EduVate Logo" class="logo-img">
+      <h2 class="logo-text">EduVate</h2>
+    </div>
+  </nav>
+
+  <section class="about-header">
+    <h1 data-aos="fade-up" data-aos-duration="1000">About EduVate</h1>
+    <p data-aos="fade-up" data-aos-delay="100" data-aos-duration="800">Bridging Cultures Through Language Learning</p>
+  </section>
+
+  <section class="about-content">
+    <div data-aos="fade-up">
+      <p>EduVate is a revolutionary platform designed to make language learning accessible and engaging. We specialize in both Ethiopian national languages and key global languages, creating a unique space for cultural preservation and international communication.</p>
+      
+      <div class="language-grid">
+        <div class="language-card" data-aos="zoom-in">
+          <i class="fas fa-globe-africa"></i>
+          <h4>Ethiopian Languages</h4>
+          <p class="language-type">National Heritage</p>
+          <div class="status-badge">6 Languages Supported</div>
+        </div>
+
+        <div class="language-card" data-aos="zoom-in" data-aos-delay="100">
+          <i class="fas fa-earth-americas"></i>
+          <h4>Global Languages</h4>
+          <p class="language-type">International Communication</p>
+          <div class="status-badge">3 Languages Available</div>
+        </div>
+      </div>
+
+      <p>Our platform combines cutting-edge technology with cultural insights to deliver immersive learning experiences. Whether you're a student, professional, or lifelong learner, EduVate adapts to your needs with interactive lessons, pronunciation guides, and AI-powered support.</p>
+    </div>
+
+    <div class="features-section">
+      <div class="feature-card" data-aos="fade-right">
+        <i class="fas fa-volume-high"></i>
+        <h3>Interactive Pronunciation</h3>
+        <p>Hear native pronunciations with audio examples and IPA guides</p>
+      </div>
+
+      <div class="feature-card" data-aos="fade-up">
+        <i class="fas fa-pen-nib"></i>
+        <h3>Writing Practice</h3>
+        <p>Master writing systems with guided practice sessions</p>
+      </div>
+
+      <div class="feature-card" data-aos="fade-left">
+        <i class="fas fa-robot"></i>
+        <h3>AI Assistant</h3>
+        <p>Smart tutoring system for personalized learning (Coming Soon)</p>
+      </div>
+    </div>
+
+    <div class="roadmap-section" data-aos="zoom-in">
+      <h3>Current Progress & Future Vision</h3>
+      <p>✓ Completed: Amharic, Oromo, Tigrinya<br>
+      ★ In Development: Somali, Afar, Sidamo<br>
+      ➤ Future Plans: Full AI integration, Mobile App, Community Features</p>
+    </div>
+  </section>
+
+  <section class="mission-section">
+    <div class="mission-grid">
+      <div class="mission-card" data-aos="fade-right">
+        <i class="fas fa-hands-holding-circle"></i>
+        <h3>Cultural Preservation</h3>
+        <p>Maintaining Ethiopia's linguistic heritage through digital innovation</p>
+      </div>
+
+      <div class="mission-card" data-aos="fade-up">
+        <i class="fas fa-universal-access"></i>
+        <h3>Accessible Education</h3>
+        <p>Free core content with premium features for advanced learners</p>
+      </div>
+
+      <div class="mission-card" data-aos="fade-left">
+        <i class="fas fa-graduation-cap"></i>
+        <h3>Progressive Learning</h3>
+        <p>Structured pathways from alphabet to conversation mastery</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="team-section">
+    <h2 data-aos="fade-up" data-aos-duration="1000">Founding Vision</h2>
+    <div class="team-member" data-aos="zoom-in" data-aos-duration="1000">
+      <div class="member-photo">
+        <img src="photo_2024-12-01_07-00-34%20(2).jpg" alt="Bahran Tsegay" class="member-image">
+      </div>
+      <h3>Bahran Tsegay</h3>
+      <p>Founder & Principal Engineer</p>
+      <div class="social-links" style="margin-top: 1.5rem;">
+        <a href="#" style="color: var(--text-color); margin: 0 10px;"><i class="fab fa-github"></i></a>
+        <a href="#" style="color: var(--text-color); margin: 0 10px;"><i class="fab fa-linkedin"></i></a>
+        <a href="#" style="color: var(--text-color); margin: 0 10px;"><i class="fab fa-twitter"></i></a>
+      </div>
+      <p style="margin-top: 1.5rem; opacity: 0.8; line-height: 1.6;">
+        "Building bridges between cultures through technology-driven language education"
+      </p>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <a href="index.html" class="cta-btn" data-aos="fade-up" data-aos-duration="1000">
+      <span>Start Your Journey</span>
+      <i class="fas fa-arrow-right" style="margin-left: 12px;"></i>
+    </a>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 800,
+      once: true,
+      offset: 120,
+      easing: 'ease-out-quart'
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>

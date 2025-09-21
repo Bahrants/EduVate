@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="EduVate - Learn Spanish, Japanese, English, Korean, German, Russian & more. Discover a world of languages at your fingertips.">
+  <title>EduVate - Learn Languages Online</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Abyssinica+SIL&display=swap" rel="stylesheet">
+  <style>
+    /* Animation-only CSS */
+    .typing-container {
+      display: inline-block;
+      position: relative;
+    }
+
+    #typing-text {
+      color: white;
+      border-right: 2px solid #ff0057;
+      padding-right: 5px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { border-color: #ff0057; }
+      50% { border-color: transparent; }
+    }
+  </style>
+</head>
+<body>
+  <div id="vantajs" class="main">
+    <div class="navbar" role="navigation">
+      <div class="icon">
+        <img src="https://cdn-icons-png.flaticon.com/512/9903/9903951.png" alt="EduVate Logo" style="vertical-align: middle; height: 36px; margin-right: 10px;">
+        <h2 class="logo" style="display: inline-block; vertical-align: middle;">EduVate</h2>
+      </div>
+      <nav class="menu" role="menu">
+        <ul>
+          <li><a href="language.html" role="menuitem">Languages</a></li>
+          <li><a href="resource.html" role="menuitem">Resources</a></li>
+          <li><a href="about.html" role="menuitem">About</a></li>
+          <li><a href="ai.html" role="menuitem">Ai</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="content" role="main">
+      <h1>
+        <span class="typing-container">
+          <span id="typing-text">WELCOME TO</span>
+        </span>
+        <span style="color: #ff0057;">EduVate</span>
+      </h1>
+      <p class="tagline">
+        Learn Spanish, Japanese, English, Korean, German, Russian &amp; more.
+      </p>
+      <p class="par">
+        Discover Ethiopian languages including  world of languages at your fingertips. Our interactive courses and immersive experiences make learning fun and effective.
+      </p>
+      <button class="cn"><a href="start.html">Start Learning</a></button>
+    </div>
+  </div>
+
+  <div class="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+  <script>
+    // Vanta.js Background (Original)
+    VANTA.GLOBE({
+      el: "#vantajs",  
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00,
+      color: 0xff0057,         
+      size: 1.20,            
+      backgroundColor: 0x0    
+    });
+
+    // Perfect Typing Animation Only
+    const messages = ["WELCOME TO", "እንኳን ደህና መጡ ወደ"];
+    let index = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typingElement = document.getElementById('typing-text');
+
+    function type() {
+      const current = messages[index];
+      
+      if (!isDeleting) {
+        typingElement.textContent = current.slice(0, charIndex++);
+        typingElement.style.fontFamily = index === 0 ? 'Poppins' : 'Abyssinica SIL';
+        
+        if (charIndex > current.length) {
+          isDeleting = true;
+          setTimeout(type, 2000);
+          return;
+        }
+      } else {
+        typingElement.textContent = current.slice(0, charIndex--);
+        
+        if (charIndex === 0) {
+          isDeleting = false;
+          index = (index + 1) % messages.length;
+        }
+      }
+
+      setTimeout(type, isDeleting ? 50 : 100);
+    }
+
+    // Original Loader Logic
+    window.addEventListener("load", function() {
+      document.querySelector('.loader-wrapper').style.display = 'none';
+      type();
+    });
+  </script>
+</body>
+</html>

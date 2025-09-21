@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinguaFlow - Complete English Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+    <style>
+        :root {
+            --bg-dark: #0a0a12;
+            --accent-pink: #ff4d79;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0c0;
+            --card-bg: #1a1a2f;
+            --success-green: #2ecc71;
+            --error-red: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(45deg, var(--accent-pink), #ff7eb3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .letter-card {
+            background: var(--card-bg);
+            border: 2px solid var(--accent-pink);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .letter-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,77,121,0.1);
+        }
+
+        .phonics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+
+        .phonics-table th,
+        .phonics-table td {
+            padding: 1.2rem;
+            border: 1px solid #2a2a4a;
+            text-align: left;
+        }
+
+        .phonics-table th {
+            background: var(--accent-pink);
+            color: white;
+        }
+
+        .writing-exercise {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        .sentence-prompt {
+            margin-bottom: 1.5rem;
+        }
+
+        .target-sentence {
+            font-size: 1.4rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #2a2a4a;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-pink);
+        }
+
+        #writingInput {
+            width: 100%;
+            padding: 1rem;
+            background: #2a2a4a;
+            border: 2px solid var(--accent-pink);
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            margin: 1rem 0;
+        }
+
+        .writing-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        button {
+            background: var(--accent-pink);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .success {
+            background: var(--success-green);
+        }
+
+        .error {
+            background: var(--error-red);
+        }
+
+        .quiz-section {
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>English Learning Master</h1>
+            <p>From Absolute Beginner to Confident Speaker</p>
+        </div>
+
+        <!-- Alphabet Section -->
+        <section class="section">
+            <h2>The English Alphabet</h2>
+            <div class="alphabet-grid" id="alphabetGrid"></div>
+        </section>
+
+        <!-- Phonics Section -->
+        <section class="section">
+            <h2>Phonics & Pronunciation</h2>
+            <table class="phonics-table" id="phonicsTable">
+                <thead>
+                    <tr>
+                        <th>Letter</th>
+                        <th>Sound</th>
+                        <th>Example</th>
+                        <th>Audio</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <!-- Writing Practice Section -->
+        <section class="section">
+            <h2>Writing Practice</h2>
+            <div class="writing-exercise">
+                <div class="sentence-prompt">
+                    <h3>Write this sentence:</h3>
+                    <div id="targetSentence" class="target-sentence"></div>
+                </div>
+                <textarea 
+                    id="writingInput" 
+                    placeholder="Type the sentence here..." 
+                    rows="3"
+                ></textarea>
+                <div class="writing-controls">
+                    <button onclick="checkWriting()">Check</button>
+                    <button onclick="newSentence()">New Sentence</button>
+                </div>
+                <div id="writingFeedback" class="feedback"></div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Alphabet Data
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        const alphabetGrid = document.getElementById('alphabetGrid');
+        
+        // Populate Alphabet Grid
+        alphabet.forEach(letter => {
+            const card = document.createElement('div');
+            card.className = 'letter-card';
+            card.textContent = letter;
+            card.onclick = () => speakLetter(letter);
+            alphabetGrid.appendChild(card);
+        });
+
+        // Complete Phonics Data
+        const phonicsData = [
+            { letter: 'A', sound: '/æ/', example: 'Apple', type: 'vowel' },
+            { letter: 'B', sound: '/b/', example: 'Ball', type: 'consonant' },
+            { letter: 'C', sound: '/k/', example: 'Cat', type: 'consonant' },
+            { letter: 'D', sound: '/d/', example: 'Dog', type: 'consonant' },
+            { letter: 'E', sound: '/ɛ/', example: 'Egg', type: 'vowel' },
+            { letter: 'F', sound: '/f/', example: 'Fish', type: 'consonant' },
+            { letter: 'G', sound: '/ɡ/', example: 'Goat', type: 'consonant' },
+            { letter: 'H', sound: '/h/', example: 'Hat', type: 'consonant' },
+            { letter: 'I', sound: '/ɪ/', example: 'Igloo', type: 'vowel' },
+            { letter: 'J', sound: '/dʒ/', example: 'Jam', type: 'consonant' },
+            { letter: 'K', sound: '/k/', example: 'Kite', type: 'consonant' },
+            { letter: 'L', sound: '/l/', example: 'Lion', type: 'consonant' },
+            { letter: 'M', sound: '/m/', example: 'Moon', type: 'consonant' },
+            { letter: 'N', sound: '/n/', example: 'Nest', type: 'consonant' },
+            { letter: 'O', sound: '/ɒ/', example: 'Octopus', type: 'vowel' },
+            { letter: 'P', sound: '/p/', example: 'Pen', type: 'consonant' },
+            { letter: 'Q', sound: '/kw/', example: 'Queen', type: 'consonant' },
+            { letter: 'R', sound: '/r/', example: 'Rabbit', type: 'consonant' },
+            { letter: 'S', sound: '/s/', example: 'Sun', type: 'consonant' },
+            { letter: 'T', sound: '/t/', example: 'Tree', type: 'consonant' },
+            { letter: 'U', sound: '/ʌ/', example: 'Umbrella', type: 'vowel' },
+            { letter: 'V', sound: '/v/', example: 'Van', type: 'consonant' },
+            { letter: 'W', sound: '/w/', example: 'Window', type: 'consonant' },
+            { letter: 'X', sound: '/ks/', example: 'Fox', type: 'consonant' },
+            { letter: 'Y', sound: '/j/', example: 'Yellow', type: 'semi-vowel' },
+            { letter: 'Z', sound: '/z/', example: 'Zoo', type: 'consonant' }
+        ];
+
+        
+
+        // Populate Phonics Table
+        const phonicsTable = document.querySelector('#phonicsTable tbody');
+        phonicsData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.letter}</td>
+                <td>${item.sound}</td>
+                <td>${item.example}</td>
+                <td><button onclick="playSound('${item.example}')">▶ Play</button></td>
+                <td>${item.type}</td>
+            `;
+            phonicsTable.appendChild(row);
+        });
+
+        // Writing Practice Data
+        const sentences = [
+            "The quick brown fox jumps over the lazy dog.",
+            "Practice makes perfect.",
+            "Hello, how are you today?",
+            "I am learning English every day.",
+            "The sun shines brightly in the sky.",
+            "Reading and writing are important skills.",
+            "Let's practice English together!",
+            "Learning new things is exciting."
+        ];
+
+        let currentSentence = "";
+
+        // Initialize writing practice
+        function initWritingPractice() {
+            currentSentence = sentences[Math.floor(Math.random() * sentences.length)];
+            document.getElementById('targetSentence').textContent = currentSentence;
+            document.getElementById('writingInput').value = '';
+            document.getElementById('writingFeedback').textContent = '';
+        }
+
+        // Check user's writing
+        function checkWriting() {
+            const userInput = document.getElementById('writingInput').value.trim();
+            const feedback = document.getElementById('writingFeedback');
+
+            if(userInput.toLowerCase() === currentSentence.toLowerCase()) {
+                feedback.textContent = "Perfect! 🎉";
+                feedback.className = "feedback success";
+            } else {
+                feedback.textContent = "Keep trying! Here's the correct sentence:\n" + currentSentence;
+                feedback.className = "feedback error";
+            }
+            feedback.style.display = 'block';
+        }
+
+        // Generate new sentence
+        function newSentence() {
+            initWritingPractice();
+        }
+
+        // Audio Functions
+        function playSound(word) {
+            const audio = new Audio(`https://howjsay.com/mp3/${word}.mp3`);
+            audio.play().catch(() => {
+                responsiveVoice.speak(word, "UK English Female");
+            });
+        }
+
+        function speakLetter(letter) {
+            responsiveVoice.speak(letter, "UK English Female");
+        }
+
+        // Initialize
+        initWritingPractice();
+    </script>
+</body>
+</html>	
