@@ -1,4 +1,4 @@
-# EduVate 🌍
+# EduVate 
 
 so basically i built a language learning website that focuses on Ethiopian languages but also has some major world languages too. started it as a personal project because i wanted something that actually makes learning Ethiopian languages easier and more accessible
 
