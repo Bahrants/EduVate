@@ -1,6 +1,6 @@
 # EduVate 
 
-so basically i built a language learning website that focuses on Ethiopian languages but also has some major world languages too. started it as a personal project because i wanted something that actually makes learning Ethiopian languages easier and more accessible
+so basically i built a language learning website that focuses on Ethiopian languages but also has some major world languages too. started it as a personal project because i wanted something that actually makes learning Ethiopian languages easier and more accessible "back then i had a lil time left so most of this was built by ai, please dont judge me lol "
 
 live site: [edu-vate.netlify.app](https://edu-vate.netlify.app)
 
